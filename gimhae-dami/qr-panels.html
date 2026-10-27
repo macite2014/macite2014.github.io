@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR 패널 출력</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--navy:#0E275D;--blue:#005C99;--yellow:#F5C21B;--wave:#DFEBF7;--line:#E2E9F2;--sub:#5B6779}
+*{box-sizing:border-box}
+body{margin:0;background:#E9EEF5;font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1B2433;word-break:keep-all}
+.ctrl{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:14px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ctrl b{color:var(--navy)}
+.ctrl input{flex:1;min-width:260px;height:42px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;font-size:15px}
+.ctrl button{height:42px;padding:0 18px;border:0;border-radius:10px;background:var(--navy);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.ctrl small{width:100%;color:var(--sub);font-size:12.5px}
+.pages{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;padding:24px}
+/* A5 = 148 x 210 mm */
+.pg{width:148mm;height:210mm;background:#fff;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.pg .hd{display:flex;justify-content:space-between;align-items:center;padding:9mm 10mm 0}
+.pg .hd img{height:8.5mm;width:auto}
+.pg .hd span{font-size:9pt;font-weight:700;color:var(--navy)}
+.pg .rule{height:.6mm;background:var(--navy);margin:4mm 10mm 0}
+.pg .body{padding:6mm 10mm 0;position:relative;flex:1}
+.pill{display:inline-block;font-size:10pt;font-weight:800;color:#fff;background:var(--navy);padding:1.2mm 4mm;border-radius:99px}
+.no{font-size:30pt;font-weight:900;color:var(--yellow);line-height:1;margin-right:2mm;vertical-align:-3mm}
+.pg h1{margin:3mm 0 0;font-size:30pt;line-height:1.18;font-weight:900;color:var(--navy);letter-spacing:-.02em}
+.pg h1 em{font-style:normal}
+.pg .lead{font-size:10.5pt;color:var(--sub);margin-top:2.5mm}
+.qrrow{display:flex;gap:5mm;align-items:center;margin-top:8mm}
+.qrbox{width:74mm;height:74mm;border-radius:5mm;border:1mm solid var(--navy);padding:3mm;background:#fff;flex:none}
+.qrbox svg{width:100%;height:100%;display:block}
+.steps{flex:1}
+.steps div{display:flex;gap:2.5mm;align-items:flex-start;font-size:10.5pt;font-weight:700;color:var(--navy);margin-bottom:3.5mm;line-height:1.35}
+.steps i{flex:none;font-style:normal;width:6mm;height:6mm;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:9pt;font-weight:900}
+.code{margin-top:4mm;font-size:9.5pt;color:var(--sub)}
+.code b{font-size:15pt;letter-spacing:1.5mm;color:var(--navy);margin-left:2mm;font-weight:900;vertical-align:-.5mm}
+.dami{position:absolute;right:9mm;bottom:20mm;height:52mm;width:auto;z-index:2}
+.wave{position:absolute;left:0;right:0;bottom:0;height:40mm}
+.wave svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.foot{position:absolute;left:10mm;bottom:7mm;z-index:3;font-size:8.5pt;color:var(--navy);font-weight:700;line-height:1.4}
+.foot span{display:block;font-weight:500;color:var(--sub)}
+.band{position:absolute;left:0;top:0;bottom:0;width:4mm}
+@media print{
+  @page{size:148mm 210mm;margin:0}
+  body{background:#fff}
+  .ctrl{display:none}
+  .pages{padding:0;gap:0;display:block}
+  .pg{box-shadow:none;page-break-after:always;break-after:page}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="ctrl">
+  <b>앱 주소</b><input id="base" placeholder="https://○○○.netlify.app/">
+  <button id="gen">QR 다시 만들기</button><button id="prt" style="background:#F5C21B;color:#0E275D">인쇄 / PDF 저장</button>
+  <small>배포한 앱의 주소(index.html이 있는 주소)를 넣으면 입장용 1장 + 구역별 6장의 A5 QR 패널이 만들어집니다. 인쇄 시 '배경 그래픽' 옵션을 켜고, 용지 A5·여백 없음으로 저장하세요.</small>
+</div>
+<div class="pages" id="pages"></div>
+<script src="config.js"></script>
+<script src="lib/qrcode.js"></script>
+<script>
+const C=window.APP_CONFIG;
+const def=location.href.replace(/[^/]*([?#].*)?$/,'');
+const $b=document.getElementById('base');
+$b.value=new URLSearchParams(location.search).get('base')||(location.protocol.startsWith('http')?def:'');
+function qrSvg(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); const n=q.getModuleCount(); let p='';
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++) if(q.isDark(r,c)) p+=`M${c} ${r}h1v1h-1z`;
+  return `<svg viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges"><path d="${p}" fill="#0E275D"/></svg>`; }
+const wave=c=>`<div class="wave"><svg viewBox="0 0 400 110" preserveAspectRatio="none"><path d="M0 40 C 90 8, 170 60, 260 32 S 370 18, 400 36 L400 110 L0 110Z" fill="#DFEBF7"/></svg></div>`;
+const head=`<div class="hd"><img src="img/logo.png"><span>${C.boothName}</span></div><div class="rule"></div>`;
+const foot=`<div class="foot">${C.eventName}<span>${C.eventDate}</span></div>`;
+function build(){
+  let base=$b.value.trim(); if(base&&!/\/$/.test(base)&&!/\.html?$/.test(base)) base+='/';
+  const pages=[];
+  pages.push(`<div class="pg">${head}<div class="body">
+    <span class="pill">입장 · 체험 스탬프</span>
+    <h1>QR 찍고<br><em style="color:#005C99">다미와 건강 체험!</em></h1>
+    <div class="lead">6개 구역 체험 · 스탬프 모으고 건강 리포트 받기</div>
+    <div class="qrrow"><div class="qrbox">${base?qrSvg(base):''}</div>
+      <div class="steps"><div><i>1</i>휴대폰 카메라로<br>QR 스캔</div><div><i>2</i>체험 스탬프<br>앱 시작하기</div><div><i>3</i>구역마다 QR 찍고<br>스탬프 모으기</div>
+      <div><i>🎁</i>${C.prizeThreshold>=C.zones.length?'모두 모으면':C.prizeThreshold+'개 이상 모으면'}<br>경품 증정!</div></div></div>
+  </div><img class="dami" src="img/hello.png">${wave()}${foot}</div>`);
+  C.zones.forEach(z=>{
+    const url=base?base+'?s='+z.token:'';
+    pages.push(`<div class="pg"><div class="band" style="background:${z.color}"></div>${head}<div class="body">
+      <span class="pill" style="background:${z.color}">체험 구역 스탬프</span>
+      <h1><span class="no">${String(z.no).padStart(2,'0')}</span>${z.name}</h1>
+      <div class="lead">${z.sub} — ${z.desc}</div>
+      <div class="qrrow"><div class="qrbox" style="border-color:${z.color}">${url?qrSvg(url):''}</div>
+        <div class="steps"><div><i>1</i>체험을 마치면</div><div><i>2</i>스탬프 앱의<br>[QR 찍고 스탬프 받기]</div><div><i>3</i>스탬프 획득 후<br>측정 결과 기록!</div></div></div>
+      <div class="code">QR이 인식되지 않으면 앱에서 [번호로 입력하기] <b>${z.code}</b></div>
+    </div><img class="dami" src="${z.img}">${wave()}${foot}</div>`);
+  });
+  document.getElementById('pages').innerHTML=pages.join('');
+}
+document.getElementById('gen').onclick=build;
+document.getElementById('prt').onclick=()=>window.print();
+build();
+</script>
+</body>
+</html>

@@ -46,3 +46,7 @@
 1. 저장소 루트에 `CNAME` 파일을 만들고 도메인만 한 줄 적기 (예: `masite.co.kr`)
 2. 도메인 등록기관 DNS에서 A 레코드를 GitHub Pages IP로 설정
 3. 저장소 Settings → Pages에서 도메인 확인 및 HTTPS 강제 체크
+
+## 하위 프로젝트
+
+- `gimhae-dami/` — 김해대학교 디지털헬스케어관 다미 건강 체험 스탬프 앱 (2026 김해의생명축제). 배포: https://macite2014.github.io/gimhae-dami/
