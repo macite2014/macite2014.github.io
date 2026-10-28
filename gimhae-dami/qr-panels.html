@@ -93,7 +93,7 @@ function build(){
       <h1><span class="no">${String(z.no).padStart(2,'0')}</span>${z.name}</h1>
       <div class="lead">${z.sub} — ${z.desc}</div>
       <div class="qrrow"><div class="qrbox" style="border-color:${z.color}">${url?qrSvg(url):''}</div>
-        <div class="steps"><div><i>1</i>체험을 마치면</div><div><i>2</i>스탬프 앱의<br>[QR 찍고 스탬프 받기]</div><div><i>3</i>스탬프 획득 후<br>측정 결과 기록!</div></div></div>
+        <div class="steps"><div><i>1</i>체험을 마치면</div><div><i>2</i>스탬프 앱의<br>[QR 찍고 스탬프 받기]</div><div><i>3</i>스탬프 모아서<br>경품 받기!</div></div></div>
       <div class="code">QR이 인식되지 않으면 앱에서 [번호로 입력하기] <b>${z.code}</b></div>
     </div><img class="dami sub" src="${z.img}"><img class="dami" src="img/ai-dami.png">${wave()}${foot}</div>`);
   });
