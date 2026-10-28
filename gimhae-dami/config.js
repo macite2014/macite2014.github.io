@@ -57,7 +57,7 @@ window.APP_CONFIG = {
     },
     {
       id: "z3", no: 3, name: "옴니핏", sub: "스트레스 · 두뇌 건강",
-      color: "#F0702A", img: "img/ai.png",
+      color: "#F0702A", img: "img/lab.png",
       token: "GHOF73", code: "7303",
       desc: "뇌파·맥파를 측정해 스트레스와 두뇌 컨디션을 확인해요.",
       fields: [
