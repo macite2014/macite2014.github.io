@@ -1,7 +1,7 @@
 /* 오프라인 캐시: 한 번 접속하면 행사장 인터넷이 불안정해도 앱이 열립니다 */
-const V='ghs-v2';
+const V='ghs-v3';
 const ASSETS=['./','index.html','config.js','manifest.json','lib/jsQR.js','lib/html2canvas.min.js',
- 'img/logo.png','img/logo-anchor.png','img/hello.png','img/joy.png','img/guide.png','img/grad.png','img/fighting.png','img/love.png','img/medi.png',
+ 'img/logo.png','img/logo.svg','img/logo-anchor.png','img/hello.png','img/joy.png','img/guide.png','img/grad.png','img/fighting.png','img/love.png','img/medi.png',
  'img/nurse.png','img/physio.png','img/ai.png','img/study.png','img/icon-192.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
