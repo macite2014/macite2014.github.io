@@ -18,7 +18,9 @@ body{margin:0;background:#E9EEF5;font-family:"Pretendard Variable",Pretendard,-a
 /* A5 = 148 x 210 mm */
 .pg{width:148mm;height:210mm;background:#fff;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;flex-direction:column}
 .pg .hd{display:flex;justify-content:space-between;align-items:center;padding:9mm 10mm 0}
-.pg .hd img{height:8.5mm;width:auto}
+.pg .hd .logos{display:flex;align-items:center;gap:3mm}
+.pg .hd .logos img{height:7.6mm;width:auto}
+.pg .hd .logos i{width:.3mm;height:7mm;background:#C8D1DE}
 .pg .hd span{font-size:9pt;font-weight:700;color:var(--navy)}
 .pg .rule{height:.6mm;background:var(--navy);margin:4mm 10mm 0}
 .pg .body{padding:6mm 10mm 0;position:relative;flex:1}
@@ -69,7 +71,7 @@ function qrSvg(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); const n=
   for(let r=0;r<n;r++)for(let c=0;c<n;c++) if(q.isDark(r,c)) p+=`M${c} ${r}h1v1h-1z`;
   return `<svg viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges"><path d="${p}" fill="#0E275D"/></svg>`; }
 const wave=c=>`<div class="wave"><svg viewBox="0 0 400 110" preserveAspectRatio="none"><path d="M0 40 C 90 8, 170 60, 260 32 S 370 18, 400 36 L400 110 L0 110Z" fill="#DFEBF7"/></svg></div>`;
-const head=`<div class="hd"><img src="img/logo.png"><span>${C.boothName}</span></div><div class="rule"></div>`;
+const head=`<div class="hd"><div class="logos"><img src="img/logo.png" alt="김해대학교"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></div><span>${C.boothName}</span></div><div class="rule"></div>`;
 const foot=`<div class="foot">${C.eventName}<span>${C.eventDate}</span></div>`;
 function build(){
   let base=$b.value.trim(); if(base&&!/\/$/.test(base)&&!/\.html?$/.test(base)) base+='/';

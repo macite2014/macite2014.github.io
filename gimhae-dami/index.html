@@ -30,7 +30,9 @@ img{max-width:100%;display:block}
 
 /* header */
 .top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top))}
-.top img{height:26px;width:auto}
+.top .logos{display:flex;align-items:center;gap:8px}
+.top .logos img{height:22px;width:auto}
+.top .logos i{width:1px;height:20px;background:var(--line)}
 .top .chip{font-size:12px;font-weight:700;color:#fff;background:var(--navy);padding:4px 10px;border-radius:99px}
 .top .back{display:flex;align-items:center;gap:4px;font-weight:700;color:var(--navy);font-size:15px;padding:4px 2px}
 
@@ -185,7 +187,9 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
 .damisay .bub{background:var(--wave);border-radius:16px 16px 16px 4px;padding:12px 14px;font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.5}
 .disc{margin:6px 16px 0;font-size:11.5px;color:var(--mute);line-height:1.55;padding:12px 14px;background:var(--bg);border-radius:12px}
 .repfoot{padding:16px 20px 22px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:16px}
-.repfoot img{height:20px;width:auto}
+.repfoot .logos{display:flex;align-items:center;gap:6px}
+.repfoot .logos img{height:17px;width:auto}
+.repfoot .logos i{width:1px;height:15px;background:var(--line)}
 .repfoot span{font-size:10.5px;color:var(--mute);text-align:right}
 .after{padding:14px 16px 0}
 .after .btn{margin-bottom:8px}
@@ -239,7 +243,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
 
   <!-- ===== INTRO ===== -->
   <section class="view intro" id="v-intro">
-    <div class="top"><img src="img/logo.png" alt="김해대학교"><span class="chip">디지털헬스케어관</span></div>
+    <div class="top"><span class="logos"><img src="img/logo.png" alt="김해대학교"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></span><span class="chip">디지털헬스케어관</span></div>
     <div class="hero">
       <div class="eyebrow" data-t="eventName"></div>
       <h1>다미와 함께하는<br><em>건강 체험 스탬프</em></h1>
@@ -274,7 +278,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
 
   <!-- ===== HOME (스탬프판) ===== -->
   <section class="view" id="v-home">
-    <div class="top"><img src="img/logo.png" alt="김해대학교"><span class="chip">체험 스탬프</span></div>
+    <div class="top"><span class="logos"><img src="img/logo.png" alt="김해대학교"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></span><span class="chip">체험 스탬프</span></div>
     <div class="hero">
       <div class="eyebrow" data-t="boothName"></div>
       <h1><span id="homeNick"></span><br><em>건강 체험 스탬프</em></h1>
@@ -681,7 +685,7 @@ function renderReport(){
       </div>`;
     }).join('')}
     <div class="disc">※ 본 리포트는 체험용 기기의 측정값을 참여자가 직접 기록한 것으로, <b>의학적 진단이 아닌 참고용</b>입니다. 혈압·BMI 등 표시 기준은 일반 성인 참고 범위이며, 건강이 걱정되시면 전문 의료기관과 상담하세요.</div>
-    <div class="repfoot"><img src="img/logo.png" alt="김해대학교"><span>${esc(C.eventName)}<br>${esc(C.eventDate)}</span></div>`;
+    <div class="repfoot"><span class="logos"><img src="img/logo.png" alt="김해대학교"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></span><span>${esc(C.eventName)}<br>${esc(C.eventDate)}</span></div>`;
   $('#repCap').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>go('record',b.dataset.edit));
   renderPrize('#prizeRep');
   $('#btnSurvey').classList.toggle('hide', !C.surveyUrl);
