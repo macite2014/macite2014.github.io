@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E275D">
+<title>G-NEX 스마트헬스 스탬프</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --navy:#0E275D; --blue:#005C99; --blue2:#1D6FD0; --yellow:#F5C21B; --dami:#F1CB3B;
+  --wave:#DFEBF7; --wave2:#C9DCF0; --bg:#F4F8FC; --card:#FFFFFF; --line:#E2E9F2;
+  --ink:#1B2433; --sub:#5B6779; --mute:#97A3B4;
+  --green:#3BB273; --pink:#F08BA6; --danger:#E5484D; --ok:#2E9E4F; --warn:#E89B13;
+  --r:20px; --shadow:0 6px 20px rgba(14,39,93,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;word-break:keep-all}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+img{max-width:100%;display:block}
+.app{max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:var(--bg)}
+.view{display:none;padding-bottom:140px}
+.view.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top))}
+.top .logos{display:flex;align-items:center;gap:8px}
+.top .logos img{height:22px;width:auto}
+.top .logos img.lg-a{height:36px}
+.top .logos i{width:1px;height:20px;background:var(--line)}
+.top .chip{font-size:12px;font-weight:700;color:#fff;background:var(--navy);padding:4px 10px;border-radius:99px}
+.top .back{display:flex;align-items:center;gap:4px;font-weight:700;color:var(--navy);font-size:15px;padding:4px 2px}
+
+/* wave hero */
+.hero{position:relative;overflow:hidden;background:#fff;padding:22px 20px 0}
+.hero .eyebrow{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.02em}
+.hero h1{margin:6px 0 0;font-size:25px;line-height:1.3;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero .wave{position:relative;height:120px;margin:0 -20px}
+.hero .wave svg{position:absolute;bottom:0;left:0;width:100%;height:80px}
+.hero .wave img{position:absolute;bottom:14px;height:110px;width:auto;z-index:2}
+.dot{position:absolute;border-radius:50%;z-index:1}
+.plus{position:absolute;z-index:1;color:var(--green);font-weight:900;font-size:20px;line-height:1}
+
+/* progress */
+.prog{background:var(--wave);padding:4px 20px 22px}
+.progbox{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px;display:flex;align-items:center;gap:16px}
+.ring{width:66px;height:66px;flex:none;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--navy)}
+.ring b small{font-size:12px;color:var(--mute);font-weight:700;margin-left:1px}
+.progtxt strong{display:block;font-size:16px;color:var(--navy);font-weight:800}
+.progtxt span{font-size:13px;color:var(--sub)}
+
+/* stamp grid */
+.sec{padding:22px 16px 0}
+.sec h2{font-size:17px;font-weight:800;color:var(--navy);margin:0 4px 12px;display:flex;align-items:center;justify-content:space-between}
+.sec h2 small{font-size:12px;color:var(--mute);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.st{position:relative;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:14px 12px 12px;text-align:left;min-height:206px;display:flex;flex-direction:column;overflow:hidden;border:2px solid transparent}
+.st .no{font-size:22px;font-weight:900;color:var(--yellow);line-height:1;letter-spacing:-.02em}
+.st .nm{font-size:15px;font-weight:800;color:var(--navy);margin-top:6px;line-height:1.25}
+.st .sb{font-size:11.5px;color:var(--sub);margin-top:2px;line-height:1.3}
+.st .pic{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 0 4px;min-height:92px}
+.st .pic img{height:86px;width:auto;transition:.3s}
+.st.off .pic img{filter:grayscale(1);opacity:.28}
+.st.off{border:2px dashed var(--line);box-shadow:none;background:#fbfdff}
+.st .ft{font-size:12px;font-weight:700;border-radius:99px;padding:5px 0;text-align:center}
+.st.off .ft{color:var(--mute);background:#F1F4F8}
+.st.on .ft{color:#fff}
+.st.on.rec .ft{background:#EEF6EF !important;color:var(--ok)}
+.stamp{position:absolute;right:8px;bottom:42px;width:60px;height:60px;border-radius:50%;border:3px solid currentColor;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-14deg);font-weight:900;line-height:1.05;background:rgba(255,255,255,.75)}
+.stamp::before{content:"";position:absolute;inset:3px;border-radius:50%;border:1.5px dashed currentColor;opacity:.7}
+.stamp b{font-size:13px}
+.stamp i{font-style:normal;font-size:9.5px;font-weight:700;opacity:.9}
+
+/* bottom bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(244,248,252,1) 70%,rgba(244,248,252,0));max-width:480px;margin:0 auto}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:56px;border-radius:16px;font-size:17px;font-weight:800;transition:transform .1s}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--navy);color:#fff;box-shadow:0 8px 20px rgba(14,39,93,.25)}
+.btn.yel{background:var(--yellow);color:var(--navy)}
+.btn.line{background:#fff;color:var(--navy);border:1.5px solid var(--line);height:50px;font-size:15px}
+.btn.ghost{height:44px;font-size:14px;color:var(--sub);font-weight:600}
+.btn[disabled]{opacity:.45}
+.btnrow{display:flex;gap:8px;margin-top:8px}
+.btnrow .btn{height:48px;font-size:15px}
+.bar .sub{display:flex;gap:8px;margin-top:8px}
+.bar .sub .btn{height:46px;font-size:14.5px}
+
+/* prize */
+.prize{margin:18px 16px 0;border-radius:var(--r);padding:18px;background:linear-gradient(135deg,#FFF6D6,#FFE9A3);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.prize h3{margin:0;font-size:18px;color:var(--navy);font-weight:800}
+.prize p{margin:4px 0 12px;font-size:13.5px;color:#5c4a12}
+.prize img{position:absolute;right:4px;bottom:4px;height:86px;width:auto}
+.prize .btn{width:auto;padding:0 18px;height:44px;font-size:15px;display:inline-flex}
+.prize.done{background:linear-gradient(135deg,#E6F5EA,#CDEBD5)}
+.prize.done p{color:#1f5a33}
+
+/* intro */
+.intro .hero{padding-top:30px}
+.intro h1{font-size:28px}
+.steps{padding:6px 20px 0;background:var(--wave)}
+.stepc{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:6px 16px}
+.stepc .row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.stepc .row:last-child{border:0}
+.stepc .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--yellow);color:var(--navy);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px}
+.stepc .row b{display:block;color:var(--navy);font-size:15px}
+.stepc .row span{font-size:13px;color:var(--sub)}
+.form{padding:22px 20px 0;background:var(--wave)}
+.lbl{display:block;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 6px 2px}
+.inp{width:100%;height:52px;border:1.5px solid var(--line);border-radius:14px;padding:0 14px;font-size:16px;background:#fff;outline:none}
+.inp:focus{border-color:var(--blue2)}
+.note{display:flex;gap:8px;font-size:12.5px;color:var(--sub);background:#fff;border-radius:14px;padding:12px 14px;margin-top:14px;line-height:1.5}
+.note b{color:var(--navy)}
+.introbottom{background:var(--wave);padding:20px 20px 40px}
+
+/* record */
+.rhead{color:#fff;padding:20px 20px 26px;position:relative;overflow:hidden}
+.rhead .no{font-size:13px;font-weight:800;background:rgba(255,255,255,.22);display:inline-block;padding:3px 10px;border-radius:99px}
+.rhead h1{margin:8px 0 2px;font-size:26px;font-weight:800;letter-spacing:-.02em}
+.rhead p{margin:0;font-size:13.5px;opacity:.92;max-width:54%}
+.rhead img{position:absolute;right:8px;bottom:-4px;height:112px;width:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
+.rhead img.sub{right:132px;bottom:-2px;height:58px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.15))}
+.duo{display:flex;justify-content:center;align-items:flex-end;gap:2px;margin:0 auto 6px}
+.duo img{height:96px;width:auto}
+.duo img+img{height:54px}
+.rbody{padding:0 16px;margin-top:-10px;position:relative}
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:18px 16px;margin-bottom:12px}
+.card h3{margin:0 0 4px;font-size:16px;color:var(--navy);font-weight:800}
+.card .hint{font-size:12.5px;color:var(--sub);margin:0 0 12px}
+.fld{margin-bottom:14px}
+.fld:last-child{margin-bottom:0}
+.numw{position:relative}
+.numw .inp{padding-right:64px}
+.numw .u{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--mute);font-weight:600}
+.bp{display:flex;align-items:center;gap:8px}
+.bp .numw{flex:1}
+.bp .sl{color:var(--mute);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-flex;align-items:center;gap:4px;height:42px;padding:0 16px;border-radius:99px;border:1.5px solid var(--line);font-weight:700;font-size:14.5px;color:var(--sub);background:#fff}
+.chips input:checked+span{border-color:var(--navy);background:var(--navy);color:#fff}
+.photo{display:flex;gap:12px;align-items:center}
+.photo .ph{width:84px;height:84px;border-radius:14px;background:#F1F4F8 center/cover no-repeat;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:26px;flex:none}
+.photo .ph.has{border-style:solid;font-size:0}
+.photo .pbtns{display:flex;flex-direction:column;gap:6px;flex:1}
+.photo .pbtns .btn{height:42px;font-size:14px}
+textarea.inp{height:76px;padding:12px 14px;resize:none}
+
+/* report */
+.rep{background:#fff}
+.rep .rtop{padding:22px 20px 0;position:relative}
+.rep .rtop .meta{font-size:12px;color:var(--mute);font-weight:600}
+.rep .rtop h1{margin:6px 0 0;font-size:24px;font-weight:800;color:var(--navy);line-height:1.3;letter-spacing:-.02em}
+.rep .rtop h1 em{font-style:normal;color:var(--blue)}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px}
+.b-ok{background:#E6F5EA;color:var(--ok)} .b-warn{background:#FFF3DA;color:#B37400} .b-bad{background:#FDE7E8;color:var(--danger)} .b-info{background:#E5F0FB;color:var(--blue)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px 16px 0}
+.kpi{background:var(--bg);border-radius:16px;padding:12px 10px;text-align:center}
+.kpi .k{font-size:11.5px;color:var(--sub);font-weight:700}
+.kpi .v{font-size:19px;font-weight:900;color:var(--navy);margin:2px 0 4px;letter-spacing:-.02em}
+.kpi .v small{font-size:11px;font-weight:700;color:var(--mute);margin-left:1px}
+.kpi .badge{font-size:10.5px;padding:2px 8px}
+.rz{border:1px solid var(--line);border-radius:18px;padding:14px;margin:0 16px 10px;position:relative}
+.rz .h{display:flex;align-items:center;gap:10px}
+.rz .h img{width:44px;height:44px;object-fit:contain;flex:none}
+.rz .h .t{flex:1;min-width:0}
+.rz .h .t b{display:block;font-size:15px;color:var(--navy);font-weight:800}
+.rz .h .t span{font-size:11.5px;color:var(--mute)}
+.rz .tag{font-size:11px;font-weight:900;color:#fff;border-radius:6px;padding:2px 6px;margin-right:4px}
+.rz table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.rz td{padding:7px 0;border-top:1px dashed var(--line)}
+.rz td:first-child{color:var(--sub);width:42%}
+.rz td:last-child{text-align:right;font-weight:800;color:var(--ink)}
+.rz td .badge{margin-left:6px;font-size:10.5px;padding:1px 7px;vertical-align:1px}
+.rz .memo{margin-top:8px;font-size:13px;color:var(--sub);background:var(--bg);border-radius:10px;padding:8px 10px}
+.rz .thumb{margin-top:8px;width:100%;max-height:220px;object-fit:cover;border-radius:12px}
+.rz.none{border-style:dashed;background:#fbfdff}
+.rz.none .h img{filter:grayscale(1);opacity:.35}
+.rz .empty{font-size:13px;color:var(--mute);margin-top:8px}
+.rz .edit{position:absolute;right:12px;top:12px;font-size:12px;font-weight:700;color:var(--blue);padding:4px 8px;border-radius:8px;background:#EEF5FC}
+.damisay{display:flex;gap:10px;align-items:flex-end;margin:16px 16px 14px}
+.damisay img{height:72px;width:auto;flex:none}
+.damisay .bub{background:var(--wave);border-radius:16px 16px 16px 4px;padding:12px 14px;font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.5}
+.disc{margin:6px 16px 0;font-size:11.5px;color:var(--mute);line-height:1.55;padding:12px 14px;background:var(--bg);border-radius:12px}
+.repfoot{padding:16px 20px 22px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:16px}
+.repfoot .logos{display:flex;align-items:center;gap:6px}
+.repfoot .logos img{height:17px;width:auto}
+.repfoot .logos img.lg-a{height:30px}
+.repfoot .logos i{width:1px;height:15px;background:var(--line)}
+.repfoot span{font-size:10.5px;color:var(--mute);text-align:right}
+.after{padding:14px 16px 0}
+.after .btn{margin-bottom:8px}
+
+/* overlays */
+.ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(10,22,48,.55);padding:20px}
+.ov.on{display:flex;animation:fade .2s}
+.modal{background:#fff;border-radius:24px;width:100%;max-width:360px;padding:24px 20px 18px;text-align:center;position:relative}
+.modal h3{margin:6px 0 4px;font-size:20px;color:var(--navy);font-weight:800}
+.modal p{margin:0 0 16px;font-size:14px;color:var(--sub)}
+.modal .btn+.btn{margin-top:6px}
+.bigstamp{width:132px;height:132px;margin:4px auto 6px;position:relative}
+.bigstamp .ring2{position:absolute;inset:0;border-radius:50%;border:5px solid currentColor;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;transform:rotate(-12deg);animation:thump .55s cubic-bezier(.2,1.6,.4,1) both;background:#fff}
+.bigstamp .ring2::before{content:"";position:absolute;inset:6px;border-radius:50%;border:2px dashed currentColor;opacity:.6}
+.bigstamp .ring2 b{font-size:30px;line-height:1}
+.bigstamp .ring2 span{font-size:14px;margin-top:4px}
+.bigstamp img{position:absolute;right:-84px;bottom:-16px;height:72px;width:auto;animation:pop .5s .35s both}
+@keyframes thump{0%{transform:scale(2.4) rotate(-30deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(-12deg)}}
+@keyframes pop{from{transform:translateY(20px) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:101;overflow:hidden}
+.conf i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+
+.scan{position:fixed;inset:0;z-index:120;background:#000;display:none}
+.scan.on{display:block}
+.scan video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scan .mask{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.scan .frame{width:68vw;max-width:290px;aspect-ratio:1;border-radius:24px;box-shadow:0 0 0 2000px rgba(0,0,0,.55);position:relative}
+.scan .frame::before,.scan .frame::after{content:"";position:absolute;inset:-3px;border-radius:26px;border:4px solid var(--yellow);clip-path:polygon(0 0,28% 0,28% 6px,6px 6px,6px 28%,0 28%,0 0,100% 0,100% 28%,calc(100% - 6px) 28%,calc(100% - 6px) 6px,72% 6px,72% 0,100% 0,100% 100%,72% 100%,72% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 72%,100% 72%,100% 100%,0 100%,0 72%,6px 72%,6px calc(100% - 6px),28% calc(100% - 6px),28% 100%,0 100%)}
+.scan .frame::after{border:0;clip-path:none;inset:8px;border-radius:16px;background:linear-gradient(to bottom,transparent 45%,rgba(245,194,27,.5) 50%,transparent 55%);background-size:100% 200%;animation:scanl 2s linear infinite}
+@keyframes scanl{from{background-position:0 100%}to{background-position:0 -100%}}
+.scan .msg{color:#fff;font-weight:700;font-size:16px;margin-top:22px;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.5);padding:0 30px}
+.scan .msg small{display:block;font-weight:500;font-size:13px;opacity:.8;margin-top:4px}
+.scan .x{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;z-index:3}
+.scan .bot{position:absolute;left:0;right:0;bottom:calc(26px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:3}
+.scan .bot button{background:rgba(255,255,255,.95);color:var(--navy);font-weight:800;border-radius:99px;padding:13px 22px;font-size:15px}
+.scan .err{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:30px;gap:10px;z-index:2}
+.scan .err.on{display:flex}
+.codein{display:flex;gap:8px;justify-content:center;margin:6px 0 14px}
+.codein input{width:56px;height:62px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:26px;font-weight:800;color:var(--navy);outline:none}
+.codein input:focus{border-color:var(--navy)}
+
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:rgba(14,39,93,.95);color:#fff;font-size:14px;font-weight:700;padding:12px 18px;border-radius:99px;z-index:200;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.hide{display:none !important}
+.foot{text-align:center;font-size:11px;color:var(--mute);padding:26px 20px 10px;line-height:1.6}
+
+
+/* ===== G-NEX 추가 ===== */
+.gnex{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(90deg,#0E275D,#1D6FD0);padding:4px 10px;border-radius:99px;letter-spacing:.02em}
+.stepc .n.gift{background:#FFE9A3;font-size:13px}
+.st .ft.todo{background:#fff !important;border:1.5px solid currentColor}
+.st .cam{position:absolute;right:10px;top:12px;font-size:11px;font-weight:800;color:var(--sub);background:var(--bg);border-radius:99px;padding:2px 8px}
+.bar .sub .btn.line{flex:1}
+
+/* record */
+.rhead .stp{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:#fff;color:var(--ink);font-size:12.5px;font-weight:800;padding:5px 12px 5px 6px;border-radius:99px}
+.rhead .stp i{font-style:normal;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+.how{display:flex;gap:12px;align-items:center}
+.how .eq{width:76px;height:92px;flex:none;border-radius:14px;background:#F4F7FB center/contain no-repeat;border:1px solid var(--line)}
+.how b{display:block;color:var(--navy);font-size:14.5px;margin-bottom:2px}
+.how span{font-size:13px;color:var(--sub);line-height:1.45;display:block}
+.how .rs{margin-top:6px;font-size:12.5px;font-weight:700;color:var(--blue);background:#EEF5FC;border-radius:10px;padding:6px 9px;display:block}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.pgrid .pt{position:relative;aspect-ratio:3/4;border-radius:12px;background:#F1F4F8 center/cover no-repeat;border:1px solid var(--line);overflow:hidden}
+.pgrid .pt .tm{position:absolute;left:0;right:0;bottom:0;font-size:10.5px;font-weight:700;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.55));padding:10px 6px 4px}
+.pgrid .add{aspect-ratio:3/4;border-radius:12px;border:1.5px dashed var(--line);background:#fbfdff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mute);font-size:12px;font-weight:700}
+.pgrid .add b{font-size:26px;line-height:1;color:var(--blue2)}
+.pempty{font-size:13px;color:var(--mute);background:var(--bg);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px;line-height:1.5}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}
+.fgrid .fld{grid-column:span 2;margin:0}
+.fgrid .fld.half{grid-column:span 1}
+.fgrid .fld.half .inp{height:48px;font-size:15px}
+.fgrid .fld.half .numw .inp{padding-right:50px}
+.fgrid .fld.half .numw .u{font-size:12px;right:10px}
+.chips span{height:38px;padding:0 13px;font-size:13.5px}
+.saved{font-size:12px;color:var(--ok);font-weight:700;text-align:center;margin-top:-4px;margin-bottom:8px;min-height:18px}
+.viewer{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.92);display:none;flex-direction:column}
+.viewer.on{display:flex}
+.viewer img{flex:1;min-height:0;width:100%;object-fit:contain;max-width:none}
+.viewer .vt{display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 14px 10px;color:#fff;font-weight:700;font-size:14px}
+.viewer .vb{display:flex;gap:8px;padding:12px 16px calc(14px + env(safe-area-inset-bottom))}
+.viewer .vb .btn{height:48px;font-size:15px}
+.viewer .vx{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:20px}
+
+/* report */
+.rz .ph3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.rz .ph3 img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.rz .h .eqi{width:44px;height:44px;border-radius:10px;background:#F4F7FB center/contain no-repeat;border:1px solid var(--line);flex:none}
+.rz.none .h .eqi{filter:grayscale(1);opacity:.4}
+.rz .rcnt{font-size:11px;font-weight:700;color:var(--mute);margin-top:8px}
+.shot{width:100%;border-radius:14px;margin:0 0 12px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ===== INTRO ===== -->
+  <section class="view intro" id="v-intro">
+    <div class="top"><span class="logos"><img src="img/logo.png" class="lg-a" alt="김해대학교 앵커사업단"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></span><span class="chip" data-t="boothNo"></span></div>
+    <div class="hero">
+      <div class="gnex">G-NEX 2026</div>
+      <div class="eyebrow" style="margin-top:8px" data-t="eventName"></div>
+      <h1>AI다미와 함께하는<br><em>스마트헬스 체험 스탬프</em></h1>
+      <div class="wave">
+        <span class="plus" style="left:22px;top:18px">✚</span>
+        <span class="dot" style="width:8px;height:8px;background:var(--yellow);left:110px;top:8px"></span>
+        <span class="dot" style="width:7px;height:7px;background:var(--pink);right:150px;top:30px"></span>
+        <span class="dot" style="width:6px;height:6px;background:var(--blue);left:70px;top:58px"></span>
+        <span class="plus" style="right:26px;top:6px;color:var(--pink);font-size:16px">✚</span>
+        <img src="img/ai-dami.png" alt="AI다미" style="right:14px;height:118px;bottom:8px">
+        <img src="img/medi.png" alt="" style="right:178px;height:40px;bottom:24px">
+        <svg viewBox="0 0 400 80" preserveAspectRatio="none"><path d="M0 34 C 90 6, 170 50, 260 26 S 370 14, 400 30 L400 80 L0 80Z" fill="#DFEBF7"/></svg>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="stepc">
+        <div class="row"><div class="n">1</div><div><b>6가지 스마트헬스 체험을 즐겨요</b><span>체성분·피부부터 스트레스·마음 건강까지</span></div></div>
+        <div class="row"><div class="n">2</div><div><b>체험 후 QR 찍고 스탬프 받기</b><span>이 화면의 'QR 찍고 스탬프 받기' 버튼으로 프로그램 QR 패널을 찍어요</span></div></div>
+        <div class="row"><div class="n">3</div><div><b>결과지·결과 화면을 사진으로 기록</b><span>수치도 직접 입력해 나만의 건강 기록을 남겨요</span></div></div>
+        <div class="row"><div class="n gift">🎁</div><div><b id="introPrizeB">스탬프 3개 이상이면 기념품 뽑기!</b><span>부스 이벤트 데스크에서 스태프에게 화면을 보여주세요</span></div></div>
+      </div>
+    </div>
+    <div class="form">
+      <label class="lbl" for="nick">스탬프판에 표시할 이름(별명)</label>
+      <input class="inp" id="nick" maxlength="10" placeholder="예) 김해다미 (선택)" autocomplete="off">
+      <div class="note"><span>🔒</span><div><b>개인정보를 수집하지 않아요.</b><br>이름·연락처를 받지 않으며, 스탬프·결과 기록·사진은 <b>내 휴대폰에만</b> 저장됩니다.</div></div>
+    </div>
+    <div class="introbottom">
+      <button class="btn pri" id="btnStart">체험 시작하기</button>
+      <div class="foot"><span data-t="boothName"></span> · <span data-t="boothNo"></span><br><span data-t="eventDate"></span></div>
+    </div>
+  </section>
+
+  <!-- ===== HOME (스탬프판) ===== -->
+  <section class="view" id="v-home">
+    <div class="top"><span class="logos"><img src="img/logo.png" class="lg-a" alt="김해대학교 앵커사업단"><i></i><img src="img/logo-anchor.png" alt="경남앵커센터"></span><span class="chip">체험 스탬프</span></div>
+    <div class="hero">
+      <div class="eyebrow" data-t="boothName"></div>
+      <h1><span id="homeNick"></span><br><em>스마트헬스 스탬프</em></h1>
+      <div class="wave" style="height:96px">
+        <span class="plus" style="left:24px;top:14px">✚</span>
+        <span class="dot" style="width:8px;height:8px;background:var(--yellow);left:120px;top:16px"></span>
+        <span class="dot" style="width:6px;height:6px;background:var(--blue);left:64px;top:44px"></span>
+        <img src="img/ai-dami.png" alt="AI다미" style="right:12px;height:100px;bottom:4px">
+        <svg viewBox="0 0 400 80" preserveAspectRatio="none"><path d="M0 34 C 90 6, 170 50, 260 26 S 370 14, 400 30 L400 80 L0 80Z" fill="#DFEBF7"/></svg>
+      </div>
+    </div>
+    <div class="prog">
+      <div class="progbox">
+        <div class="ring"><svg width="66" height="66"><circle cx="33" cy="33" r="28" stroke="#E7EEF7" stroke-width="8" fill="none"/><circle id="ringBar" cx="33" cy="33" r="28" stroke="#F5C21B" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9" style="transition:stroke-dashoffset .6s"/></svg><b id="ringTxt">0<small>/6</small></b></div>
+        <div class="progtxt"><strong id="progTitle">첫 스탬프를 받아보세요!</strong><span id="progSub">체험 후 QR 패널을 찍으면 스탬프가 찍혀요</span></div>
+      </div>
+    </div>
+    <div id="prizeHome"></div>
+    <div class="sec">
+      <div class="damisay" style="margin:0 0 14px"><img src="img/ai-dami.png" alt="AI다미" style="height:78px"><div class="bub"><b>AI다미</b>가 안내할게요!<br>체험 후 QR을 찍으면 스탬프를 찍어주고, <b>결과지 사진</b>도 함께 보관해 줄게요.</div></div>
+      <h2>체험 프로그램 <small>스탬프를 누르면 결과 기록</small></h2>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="foot"><span data-t="eventName"></span> · <span data-t="eventDate"></span><br><button class="btn ghost" id="btnReset" style="height:36px;font-size:12px;width:auto;margin:6px auto 0;color:var(--mute)">스탬프·기록 모두 지우기</button></div>
+    <div class="bar" id="homeBar">
+      <button class="btn pri" id="btnScan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg>QR 찍고 스탬프 받기</button>
+      <div class="sub"><button class="btn line" id="btnRep">📋 나의 체험 기록</button><button class="btn line hide" id="btnSurvey">📝 만족도 조사</button></div>
+    </div>
+  </section>
+
+  <!-- ===== RECORD (체험 결과 기록) ===== -->
+  <section class="view" id="v-rec">
+    <div class="top"><button class="back" data-go="home">‹ 스탬프판</button><span class="chip">결과 기록</span></div>
+    <div class="rhead" id="recHead"></div>
+    <div class="rbody" id="recBody"></div>
+    <div class="bar">
+      <div class="saved" id="savedMsg"></div>
+      <button class="btn pri" id="btnRecDone">기록 저장하고 스탬프판으로</button>
+    </div>
+  </section>
+
+  <!-- ===== REPORT (나의 체험 기록) ===== -->
+  <section class="view" id="v-rep">
+    <div class="top"><button class="back" data-go="home">‹ 스탬프판</button><span class="chip">나의 체험 기록</span></div>
+    <div class="rep" id="repCard"></div>
+    <div class="after" style="padding-bottom:30px">
+      <button class="btn pri" id="btnShot">🖼️ 기록을 이미지로 저장하기</button>
+      <button class="btn line" data-go="home">스탬프판으로 돌아가기</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- scanner -->
+<div class="scan" id="scan">
+  <video id="vid" playsinline muted autoplay></video>
+  <div class="mask"><div class="frame"></div><div class="msg">체험 프로그램의 QR 패널을 네모 안에 맞춰주세요<small>자동으로 인식돼요</small></div></div>
+  <div class="err" id="scanErr"><div style="font-size:40px">📷</div><b id="scanErrT">카메라를 사용할 수 없어요</b><span style="font-size:13px;opacity:.85" id="scanErrS">브라우저 설정에서 카메라 권한을 허용하거나<br>아래 '번호로 입력하기'를 이용해 주세요.</span></div>
+  <button class="x" id="scanX" aria-label="닫기">✕</button>
+  <div class="bot"><button id="scanCode">🔢 번호로 입력하기</button></div>
+</div>
+<canvas id="cv" hidden></canvas>
+
+<!-- photo viewer -->
+<div class="viewer" id="viewer">
+  <div class="vt"><span id="vTitle"></span><button class="vx" id="vX" aria-label="닫기">✕</button></div>
+  <img id="vImg" alt="결과 사진">
+  <div class="vb"><button class="btn line" id="vDel" style="color:var(--danger)">🗑 이 사진 삭제</button><button class="btn pri" id="vClose">닫기</button></div>
+</div>
+
+<input type="file" id="fCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="fLib" accept="image/*" multiple hidden>
+
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
+<div class="conf" id="conf"></div>
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="lib/jsQR.js"></script>
+<script>
+(function(){
+'use strict';
+const C = window.APP_CONFIG;
+const Z = C.zones;
+const N = Z.length;
+const TH = Math.min(Math.max(C.prizeThreshold||N,1),N);
+const MAXP = C.maxPhotos||4;
+const PRZ = C.prizeName||'기념품 뽑기';
+const KEY = 'gnex-stamp-v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const zById = id => Z.find(z => z.id===id);
+const pad = n => String(n).padStart(2,'0');
+
+/* ---------- state (localStorage) ---------- */
+let S = load();
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || null; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); return true; }catch(e){ toast('저장 공간이 부족해요'); return false; } }
+function newState(nick){
+  const pid = (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))).slice(0,12);
+  S = { v:1, pid, nick: nick||'', created: Date.now(), stamps:{}, records:{}, prize:null };
+  save(); stat('start');
+  try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+}
+const count = () => S ? Object.keys(S.stamps).filter(id=>zById(id)).length : 0;
+const complete = () => count() >= TH;
+
+/* ---------- photos (IndexedDB) ---------- */
+const DB = {
+  db:null,
+  open(){ if(this.db) return Promise.resolve(this.db);
+    return new Promise((res,rej)=>{ if(!window.indexedDB) return rej('no idb');
+      const r=indexedDB.open('gnex-photos',1);
+      r.onupgradeneeded=()=>{ const s=r.result.createObjectStore('p',{keyPath:'id'}); s.createIndex('zone','zone'); };
+      r.onsuccess=()=>{ this.db=r.result; res(this.db); }; r.onerror=()=>rej(r.error); }); },
+  tx(mode){ return this.open().then(db=>db.transaction('p',mode).objectStore('p')); },
+  wrap(req){ return new Promise((res,rej)=>{ req.onsuccess=()=>res(req.result); req.onerror=()=>rej(req.error); }); },
+  put(o){ return this.tx('readwrite').then(s=>this.wrap(s.put(o))); },
+  del(id){ return this.tx('readwrite').then(s=>this.wrap(s.delete(id))); },
+  get(id){ return this.tx('readonly').then(s=>this.wrap(s.get(id))); },
+  byZone(z){ return this.tx('readonly').then(s=>this.wrap(s.index('zone').getAll(z))).then(a=>a.sort((x,y)=>x.ts-y.ts)); },
+  all(){ return this.tx('readonly').then(s=>this.wrap(s.getAll())).then(a=>a.sort((x,y)=>x.ts-y.ts)); },
+  clear(){ return this.tx('readwrite').then(s=>this.wrap(s.clear())); }
+};
+let PC = {}; // zone → photo count
+function refreshCounts(){ return DB.all().then(a=>{ PC={}; a.forEach(p=>PC[p.zone]=(PC[p.zone]||0)+1); }).catch(()=>{}); }
+function compress(file){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(file); const im=new Image();
+    im.onload=()=>{ const M=1400; let w=im.naturalWidth,h=im.naturalHeight; const s=Math.min(1,M/Math.max(w,h)); w=Math.round(w*s); h=Math.round(h*s);
+      const c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg',.8)); };
+    im.onerror=()=>{ URL.revokeObjectURL(url); rej('img'); };
+    im.src=url;
+  });
+}
+
+/* ---------- anonymous stats (optional) ---------- */
+function stat(ev, zone){
+  if(!C.statsEndpoint || !S) return;
+  try{ const q = JSON.parse(localStorage.getItem('gnex-q')||'[]');
+  q.push({pid:S.pid, ev, zone:zone||'', ts:new Date().toISOString()});
+  localStorage.setItem('gnex-q', JSON.stringify(q)); flush(); }catch(e){}
+}
+function flush(){
+  if(!C.statsEndpoint || !navigator.onLine) return;
+  let q=[]; try{ q = JSON.parse(localStorage.getItem('gnex-q')||'[]'); }catch(e){} if(!q.length) return;
+  fetch(C.statsEndpoint, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(q)})
+    .then(()=>localStorage.setItem('gnex-q','[]')).catch(()=>{});
+}
+window.addEventListener('online', flush);
+
+/* ---------- utils ---------- */
+const fmtT = ts => { const d=new Date(ts); return (d.getMonth()+1)+'/'+d.getDate()+' '+pad(d.getHours())+':'+pad(d.getMinutes()); };
+const hm = ts => { const d=new Date(ts); return pad(d.getHours())+':'+pad(d.getMinutes()); };
+let tt; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2200); }
+function confetti(){ const c=$('#conf'); const cols=['#F5C21B','#1D6FD0','#F08BA6','#3BB273','#8B3FE0','#F0702A']; c.innerHTML=''; for(let i=0;i<60;i++){ const e=document.createElement('i'); e.style.left=Math.random()*100+'vw'; e.style.background=cols[i%cols.length]; e.style.animationDelay=(Math.random()*.6)+'s'; e.style.animationDuration=(1.4+Math.random()*1.2)+'s'; c.appendChild(e);} setTimeout(()=>c.innerHTML='',3200); }
+function modal(html){ $('#modal').innerHTML=html; $('#ov').classList.add('on'); }
+function closeModal(){ $('#ov').classList.remove('on'); }
+window.__closeModal = closeModal;
+$('#ov').addEventListener('click', e=>{ if(e.target.id==='ov') closeModal(); });
+document.querySelectorAll('[data-t]').forEach(el=>el.textContent=C[el.dataset.t]||'');
+$('#introPrizeB').textContent = '스탬프 '+TH+'개 이상이면 '+PRZ+'!';
+
+/* ---------- reference badges (참고용) ---------- */
+function bpLv(s,d){ if(!s||!d) return null;
+  if(s>=140||d>=90) return ['높음','b-bad'];
+  if(s>=130||d>=80) return ['고혈압 전단계','b-warn'];
+  if(s>=120) return ['주의','b-warn'];
+  return ['정상','b-ok']; }
+function bmiLv(b){ if(!b) return null; if(b<18.5) return ['저체중','b-info']; if(b<23) return ['정상','b-ok']; if(b<25) return ['비만 전단계','b-warn']; return ['비만','b-bad']; }
+function lvOf(f,v){
+  if(v==null||v==='') return null;
+  if(f.type==='bp') return bpLv(+v.s,+v.d);
+  if(f.kind==='bmi') return bmiLv(+v);
+  if(f.ref){ const n=+v; return (n>=f.ref[0]&&n<=f.ref[1])?['표준','b-ok']:['표준 범위 밖','b-warn']; }
+  return null;
+}
+function hasVal(f,v){ if(v==null||v==='') return false; if(f.type==='bp') return !!(v.s||v.d); return true; }
+function fmtVal(f,v){
+  if(f.type==='bp') return esc((v.s||'-')+' / '+(v.d||'-'))+' <small style="color:var(--mute);font-weight:600">mmHg</small>';
+  if(f.type==='number') return esc(v)+(f.unit?' <small style="color:var(--mute);font-weight:600">'+esc(f.unit)+'</small>':'');
+  return esc(v);
+}
+function recOf(id){ return (S.records[id] = S.records[id] || {v:{}, memo:''}); }
+function filledCount(id){ const r=S.records[id]; if(!r) return 0; const z=zById(id); return z.fields.filter(f=>hasVal(f,r.v[f.key])).length + (r.memo?1:0); }
+
+/* ---------- router ---------- */
+function go(view, arg, push=true){
+  if(!S && view!=='intro') view='intro';
+  if(view==='rec' && (!arg || !zById(arg) || !S.stamps[arg])) view='home';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  if(view==='home') renderHome();
+  if(view==='rec') renderRec(arg);
+  if(view==='rep') renderRep();
+  $('#v-'+view).classList.add('on');
+  window.scrollTo(0,0);
+  const h = view==='home'||view==='intro' ? '' : '#'+view+(arg?'='+arg:'');
+  if(push && location.hash!==h) history.pushState({view,arg},'',location.pathname+h);
+}
+window.addEventListener('popstate', ()=>route(false));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function route(push){
+  const h=location.hash.slice(1); const [v,a]=h.split('=');
+  if(S && (v==='rec'||v==='rep')) go(v,a,push); else go(S?'home':'intro',null,push);
+}
+
+/* ---------- intro ---------- */
+$('#btnStart').addEventListener('click',()=>{
+  newState($('#nick').value.trim());
+  go('home');
+  setTimeout(()=>modal(`<img src="img/ai-dami.png" style="height:104px;width:auto;margin:0 auto 4px">
+    <h3>반가워요${S.nick?', '+esc(S.nick)+'님':''}!</h3>
+    <p>체험을 마치면<br><b>'QR 찍고 스탬프 받기'</b>로 QR 패널을 찍어주세요.<br>스탬프를 받은 뒤 <b>결과지 사진</b>도 남길 수 있어요.</p>
+    <button class="btn pri" onclick="__closeModal()">알겠어요</button>`),250);
+});
+
+/* ---------- home ---------- */
+function renderHome(){
+  const n=count();
+  $('#homeNick').textContent = (S.nick? S.nick+'님의':'나의');
+  $('#ringTxt').innerHTML = n+'<small>/'+N+'</small>';
+  $('#ringBar').style.strokeDashoffset = 175.9*(1-n/N);
+  const left = TH-n;
+  $('#progTitle').textContent = n===0 ? '첫 스탬프를 받아보세요!' : (n>=N ? '모든 체험 완료! 🎉' : (left>0 ? PRZ+'까지 스탬프 '+left+'개 남았어요' : (S.prize ? '🎁 '+PRZ+' 참여 완료!' : '🎁 '+PRZ+' 기회 획득!')));
+  $('#progSub').textContent = n===0 ? '체험 후 QR 패널을 찍으면 스탬프가 찍혀요' : (S.prize ? '남은 체험도 즐겁게 해보세요' : (n>=TH ? '이벤트 데스크에서 스태프에게 이 화면을 보여주세요' : '스탬프를 누르면 결과 사진·수치를 기록할 수 있어요'));
+  $('#grid').innerHTML = Z.map(z=>{
+    const st=S.stamps[z.id]; const on=!!st;
+    const pc=PC[z.id]||0, fc=filledCount(z.id), rec=on&&(pc||fc);
+    const ft = !on ? '아직 체험 전' : (rec ? '✓ 기록 완료' : '✏️ 결과 기록하기');
+    return `<button class="st ${on?'on':'off'} ${rec?'rec':''}" data-z="${z.id}" ${on?`style="border-color:${z.color}33"`:''}>
+      <div class="no">${pad(z.no)}</div>
+      ${on&&pc?`<span class="cam">📷 ${pc}</span>`:''}
+      <div class="nm">${esc(z.name)}</div><div class="sb">${esc(z.sub)}</div>
+      <div class="pic"><img src="${z.img}" alt=""></div>
+      ${on?`<div class="stamp" style="color:${z.color}"><b>체험</b><b>완료</b><i>${hm(st)}</i></div>`:''}
+      <div class="ft ${on&&!rec?'todo':''}" style="${on&&!rec?'color:'+z.color:''}">${ft}</div>
+    </button>`;}).join('');
+  $('#grid').querySelectorAll('.st').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.z, z=zById(id);
+    if(S.stamps[id]){ go('rec',id); return; }
+    modal(`<div class="duo"><img src="img/ai-dami.png" alt="AI다미"><img src="${z.img}" alt="" style="filter:grayscale(1);opacity:.45"></div>
+      <h3>${pad(z.no)} ${esc(z.name)}</h3><p>${esc(z.desc)}<br><br>체험 후 프로그램의 QR 패널을 찍으면<br>스탬프가 찍혀요.</p>
+      <button class="btn pri" id="mScan">QR 찍으러 가기</button><button class="btn ghost" onclick="__closeModal()">닫기</button>`);
+    $('#mScan').onclick=()=>{closeModal();openScan();};
+  }));
+  renderPrize('#prizeHome');
+}
+
+/* ---------- prize ---------- */
+function renderPrize(sel){
+  const box=$(sel);
+  if(S.prize){ box.innerHTML=`<div class="prize done"><h3>🎁 ${esc(PRZ)} 참여 완료</h3><p>${fmtT(S.prize)} 참여 · 함께해 주셔서 감사합니다!</p><img src="img/ai-dami.png" alt="AI다미"></div>`; return; }
+  if(!complete()){ box.innerHTML=''; return; }
+  box.innerHTML=`<div class="prize"><h3>🎁 ${esc(PRZ)} 기회!</h3><p>스탬프 ${TH}개 달성! <b>이벤트 데스크</b>에서<br>스태프에게 이 화면을 보여주세요.</p><button class="btn pri" data-prize>스태프 확인</button><img src="img/ai-dami.png" alt="AI다미"></div>`;
+  box.querySelector('[data-prize]').onclick=staffPin;
+}
+function staffPin(){
+  modal(`<h3>스태프 확인</h3><p>스태프가 확인 번호를 입력해요</p>
+    <div class="codein"><input id="pin" type="password" inputmode="numeric" maxlength="8" style="width:180px;letter-spacing:8px" autocomplete="off"></div>
+    <button class="btn pri" id="pinOk">${esc(PRZ)} 참여 처리</button><button class="btn ghost" onclick="__closeModal()">취소</button>`);
+  setTimeout(()=>$('#pin').focus(),100);
+  $('#pinOk').onclick=()=>{
+    if($('#pin').value!==String(C.staffPin)){ toast('확인 번호가 맞지 않아요'); $('#pin').value=''; return; }
+    S.prize=Date.now(); save(); stat('prize'); closeModal(); confetti(); toast(PRZ+' 참여 처리되었어요'); renderHome();
+  };
+}
+
+/* ---------- record view ---------- */
+let curZ=null, saveT=0;
+function renderRec(id){
+  const z=zById(id); curZ=z; const st=S.stamps[id]; const r=recOf(id);
+  $('#recHead').style.background=`linear-gradient(135deg, ${z.color}, ${z.color}cc)`;
+  $('#recHead').innerHTML=`<span class="no">NO. ${pad(z.no)}</span><h1>${esc(z.name)}</h1><p>${esc(z.sub)}</p>
+    <div class="stp"><i style="background:${z.color}">✓</i>스탬프 확인 · ${fmtT(st)} 획득</div>
+    <img src="${z.img}" alt="">`;
+  const fields = z.fields.map(f=>fieldHtml(f, r.v[f.key])).join('');
+  $('#recBody').innerHTML=`
+    <div class="card"><h3>📄 결과지 받는 방법</h3>
+      <div class="how"><div class="eq" style="background-image:url('${z.eq}')"></div>
+      <div><span>${esc(z.desc)}</span><span class="rs">${esc(z.result)}</span></div></div></div>
+    <div class="card"><h3>📷 결과 사진 기록</h3><p class="hint">${esc(z.photoTip)} (최대 ${MAXP}장)</p>
+      <div id="pBox"></div>
+      <div class="btnrow" style="margin-top:0"><button class="btn line" id="bCam">📸 카메라로 촬영</button><button class="btn line" id="bLib">🖼️ 앨범에서 선택</button></div></div>
+    <div class="card"><h3>✏️ 결과 직접 입력 <small style="font-size:12px;color:var(--mute);font-weight:600">(선택)</small></h3><p class="hint">결과지·화면을 보고 기억하고 싶은 항목만 입력하세요.</p>
+      <div class="fgrid" id="fBox">${fields}
+        <div class="fld"><label class="lbl" for="memo">메모</label><textarea class="inp" id="memo" maxlength="300" placeholder="예) 다음엔 스트레칭을 더 해보기">${esc(r.memo||'')}</textarea></div>
+      </div></div>
+    <div class="disc">※ 입력한 수치·사진은 이 휴대폰에만 저장되며 서버로 전송되지 않습니다. 결과는 체험용 참고 정보로, 의학적 진단을 대신하지 않아요.</div>`;
+  $('#savedMsg').textContent='';
+  $('#bCam').onclick=()=>pickPhoto('#fCam');
+  $('#bLib').onclick=()=>pickPhoto('#fLib');
+  bindFields(z);
+  renderPhotos();
+}
+function fieldHtml(f,v){
+  const half=f.half?' half':'';
+  if(f.type==='number') return `<div class="fld${half}"><label class="lbl">${esc(f.label)}</label><div class="numw"><input class="inp" type="number" inputmode="decimal" data-k="${f.key}" ${f.min!=null?'min="'+f.min+'"':''} ${f.max!=null?'max="'+f.max+'"':''} step="${f.step||1}" value="${v!=null?esc(v):''}" placeholder="-"><span class="u">${esc(f.unit||'')}</span></div></div>`;
+  if(f.type==='bp') return `<div class="fld"><label class="lbl">${esc(f.label)}</label><div class="bp"><div class="numw"><input class="inp" type="number" inputmode="numeric" data-k="${f.key}" data-p="s" value="${v&&v.s?esc(v.s):''}" placeholder="최고"><span class="u">mmHg</span></div><span class="sl">/</span><div class="numw"><input class="inp" type="number" inputmode="numeric" data-k="${f.key}" data-p="d" value="${v&&v.d?esc(v.d):''}" placeholder="최저"><span class="u">mmHg</span></div></div></div>`;
+  if(f.type==='grade') return `<div class="fld"><label class="lbl">${esc(f.label)}</label><div class="chips">${f.options.map(o=>`<label><input type="radio" name="g-${f.key}" data-k="${f.key}" value="${esc(o)}" ${v===o?'checked':''}><span>${esc(o)}</span></label>`).join('')}</div></div>`;
+  return `<div class="fld${half}"><label class="lbl">${esc(f.label)}</label><input class="inp" type="text" maxlength="60" data-k="${f.key}" value="${v!=null?esc(v):''}" placeholder="${esc(f.placeholder||'')}"></div>`;
+}
+function bindFields(z){
+  const box=$('#fBox'); const r=recOf(z.id);
+  const upd = el => {
+    const k=el.dataset.k, f=z.fields.find(x=>x.key===k);
+    if(f.type==='bp'){ const o=r.v[k]||{}; o[el.dataset.p]=el.value; r.v[k]=(o.s||o.d)?o:undefined; }
+    else if(f.type==='grade'){ r.v[k]=el.checked?el.value:r.v[k]; }
+    else { const val=el.value.trim(); r.v[k]= val===''?undefined:val; }
+    autosave();
+  };
+  box.querySelectorAll('input[data-k]').forEach(el=>{
+    if(el.type==='radio'){
+      el.addEventListener('click',()=>{ // 다시 누르면 선택 해제
+        const k=el.dataset.k; if(r.v[k]===el.value){ el.checked=false; r.v[k]=undefined; autosave(); } else upd(el); });
+    } else el.addEventListener('input',()=>upd(el));
+  });
+  $('#memo').addEventListener('input',e=>{ r.memo=e.target.value; autosave(); });
+}
+function autosave(){
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{ if(curZ){ recOf(curZ.id).ts=Date.now(); } if(save()) $('#savedMsg').textContent='✓ 자동 저장됨 · '+hm(Date.now()); },400);
+}
+$('#btnRecDone').addEventListener('click',()=>{
+  clearTimeout(saveT); if(curZ) recOf(curZ.id).ts=Date.now(); save(); stat('record',curZ&&curZ.id);
+  toast('기록이 저장되었어요'); go('home');
+});
+
+/* photos */
+function pickPhoto(sel){
+  if((PC[curZ.id]||0)>=MAXP){ toast('사진은 최대 '+MAXP+'장까지 저장할 수 있어요'); return; }
+  const el=$(sel); el.value=''; el.click();
+}
+['#fCam','#fLib'].forEach(sel=>$(sel).addEventListener('change',async e=>{
+  const files=[...e.target.files]; if(!files.length||!curZ) return;
+  const z=curZ; let room=MAXP-(PC[z.id]||0), added=0;
+  toast('사진을 저장하고 있어요…');
+  for(const f of files){
+    if(room<=0) break;
+    try{ const data=await compress(f); await DB.put({id:z.id+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), zone:z.id, ts:Date.now(), data}); room--; added++; }
+    catch(err){ toast('사진을 저장하지 못했어요'); }
+  }
+  if(files.length>added && room<=0) toast('최대 '+MAXP+'장까지만 저장했어요'); else if(added) toast('사진 '+added+'장을 기록했어요');
+  if(added){ stat('photo',z.id); }
+  await refreshCounts(); renderPhotos();
+}));
+function renderPhotos(){
+  const z=curZ; if(!z) return;
+  DB.byZone(z.id).then(ps=>{
+    PC[z.id]=ps.length;
+    const box=$('#pBox'); if(!box) return;
+    if(!ps.length){ box.innerHTML=`<div class="pempty">아직 사진이 없어요.<br><b>결과지</b>나 <b>결과 화면</b>을 찍어 남겨보세요!</div>`; return; }
+    box.innerHTML=`<div class="pgrid">${ps.map((p,i)=>`<button class="pt" data-p="${p.id}" style="background-image:url('${p.data}')"><span class="tm">${i+1} · ${hm(p.ts)}</span></button>`).join('')}${ps.length<MAXP?`<button class="add" id="pAdd"><b>+</b>추가</button>`:''}</div>`;
+    box.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>openViewer(b.dataset.p));
+    const a=$('#pAdd'); if(a) a.onclick=()=>pickPhoto('#fCam');
+  }).catch(()=>{ $('#pBox').innerHTML='<div class="pempty">이 브라우저에서는 사진 저장을 사용할 수 없어요.</div>'; });
+}
+let vId=null;
+function openViewer(id){
+  DB.get(id).then(p=>{ if(!p) return; vId=id; const z=zById(p.zone);
+    $('#vImg').src=p.data; $('#vTitle').textContent=pad(z.no)+' '+z.name+' · '+fmtT(p.ts); $('#viewer').classList.add('on'); });
+}
+function closeViewer(){ $('#viewer').classList.remove('on'); $('#vImg').removeAttribute('src'); vId=null; }
+$('#vX').onclick=closeViewer; $('#vClose').onclick=closeViewer;
+$('#vDel').onclick=()=>{ if(!vId) return; if(!confirm('이 사진을 삭제할까요?')) return;
+  DB.del(vId).then(refreshCounts).then(()=>{ closeViewer(); renderPhotos(); if($('#v-rep').classList.contains('on')) renderRep(); toast('사진을 삭제했어요'); }); };
+
+/* ---------- report ---------- */
+function renderRep(){
+  DB.all().catch(()=>[]).then(ps=>{
+    const byZ={}; ps.forEach(p=>(byZ[p.zone]=byZ[p.zone]||[]).push(p));
+    const n=count(); const nrec=Z.filter(z=>S.stamps[z.id]&&(filledCount(z.id)||(byZ[z.id]||[]).length)).length;
+    const now=new Date();
+    $('#repCard').innerHTML=`
+      <div class="rtop"><div class="meta">${esc(C.eventName)} · ${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())}</div>
+        <h1>${S.nick?esc(S.nick)+'님의':'나의'}<br><em>스마트헬스 체험 기록</em></h1></div>
+      <div class="kpis">
+        <div class="kpi"><div class="k">스탬프</div><div class="v">${n}<small>/${N}</small></div><span class="badge ${n>=TH?'b-ok':'b-info'}">${n>=TH?'🎁 뽑기 기회':'모으는 중'}</span></div>
+        <div class="kpi"><div class="k">결과 기록</div><div class="v">${nrec}<small>개</small></div><span class="badge b-info">프로그램</span></div>
+        <div class="kpi"><div class="k">결과 사진</div><div class="v">${ps.length}<small>장</small></div><span class="badge b-info">휴대폰 저장</span></div>
+      </div>
+      <div class="damisay"><img src="img/ai-dami.png" alt="AI다미"><div class="bub">${n===0?'아직 체험 기록이 없어요. 첫 체험을 시작해 볼까요?':(n>=N?'6가지 체험을 모두 마쳤어요! 꾸준한 건강 관리 응원할게요 💪':'멋져요! 남은 체험도 해보고 기록을 채워보세요.')}</div></div>
+      ${Z.map(z=>repZone(z,byZ[z.id]||[])).join('')}
+      <div class="disc">※ 본 기록은 참가자가 직접 입력·촬영한 체험 결과로, 의학적 진단을 대신하지 않습니다. 건강이 걱정되면 전문 의료기관과 상담하세요.<br>※ 기록은 이 휴대폰 브라우저에만 저장돼요. 브라우저 기록을 지우면 함께 삭제되니 필요하면 이미지로 저장해 두세요.</div>
+      <div class="repfoot"><span class="logos"><img src="img/logo.png" class="lg-a" alt=""><i></i><img src="img/logo-anchor.png" alt=""></span><span>${esc(C.boothName)}<br>${esc(C.eventDate)}</span></div>`;
+    $('#repCard').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>go('rec',b.dataset.edit));
+    $('#repCard').querySelectorAll('[data-vp]').forEach(b=>b.onclick=()=>openViewer(b.dataset.vp));
+  });
+}
+function repZone(z,ps){
+  const st=S.stamps[z.id];
+  if(!st) return `<div class="rz none"><div class="h"><div class="eqi" style="background-image:url('${z.eq}')"></div><div class="t"><b><span class="tag" style="background:#C5CEDA">${pad(z.no)}</span>${esc(z.name)}</b><span>${esc(z.sub)}</span></div></div><div class="empty">아직 체험 전이에요</div></div>`;
+  const r=S.records[z.id]||{v:{}};
+  const rows=z.fields.filter(f=>hasVal(f,r.v[f.key])).map(f=>{ const lv=lvOf(f,r.v[f.key]);
+    return `<tr><td>${esc(f.label.replace(/\s*\(.*\)$/,''))}</td><td>${fmtVal(f,r.v[f.key])}${lv?`<span class="badge ${lv[1]}">${lv[0]}</span>`:''}</td></tr>`; }).join('');
+  return `<div class="rz"><button class="edit" data-edit="${z.id}">기록 수정</button>
+    <div class="h"><div class="eqi" style="background-image:url('${z.eq}')"></div><div class="t"><b><span class="tag" style="background:${z.color}">${pad(z.no)}</span>${esc(z.name)}</b><span>${esc(z.sub)} · ${fmtT(st)} 스탬프</span></div></div>
+    ${rows?`<table>${rows}</table>`:''}
+    ${r.memo?`<div class="memo">📝 ${esc(r.memo)}</div>`:''}
+    ${ps.length?`<div class="ph3">${ps.map(p=>`<img src="${p.data}" data-vp="${p.id}" alt="결과 사진">`).join('')}</div>`:''}
+    ${(!rows&&!r.memo&&!ps.length)?`<div class="empty">스탬프 획득! 결과 사진이나 수치를 기록해 보세요 → <b style="color:var(--blue)">기록 수정</b></div>`:''}
+  </div>`;
+}
+$('#btnRep').addEventListener('click',()=>go('rep'));
+$('#btnShot').addEventListener('click',()=>{
+  const run=()=>{
+    toast('이미지를 만들고 있어요…');
+    window.html2canvas($('#repCard'),{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(cv=>{
+      cv.toBlob(async b=>{
+        const name='G-NEX_스마트헬스기록.png';
+        try{ const f=new File([b],name,{type:'image/png'});
+          if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share({files:[f],title:'스마트헬스 체험 기록'}); return; } }catch(e){ if(e&&e.name==='AbortError') return; }
+        const url=URL.createObjectURL(b);
+        modal(`<h3>체험 기록 이미지</h3><p>이미지를 <b>길게 눌러 저장</b>하거나<br>아래 버튼으로 내려받으세요.</p><img class="shot" src="${url}" alt="체험 기록"><a class="btn pri" href="${url}" download="${name}">이미지 내려받기</a><button class="btn ghost" onclick="__closeModal()">닫기</button>`);
+      },'image/png');
+    }).catch(()=>toast('이미지 저장에 실패했어요. 화면 캡처를 이용해 주세요'));
+  };
+  if(window.html2canvas) run();
+  else { const s=document.createElement('script'); s.src='lib/html2canvas.min.js'; s.onload=run; s.onerror=()=>toast('화면 캡처를 이용해 주세요'); document.head.appendChild(s); }
+});
+
+/* ---------- stamping ---------- */
+function resolveToken(txt){
+  if(!txt) return null; txt=String(txt).trim();
+  let tok=txt;
+  try{ const u=new URL(txt); tok=u.searchParams.get('s')||(u.search?'':'start'); }catch(e){}
+  return Z.find(z=>z.token===tok) || Z.find(z=>z.code===txt) || (tok==='start'?'start':null);
+}
+function doStamp(z){
+  if(!S) newState('');
+  if(S.stamps[z.id]){
+    go('home');
+    modal(`<div class="duo"><img src="img/ai-dami.png" alt="AI다미"><img src="${z.img}" alt=""></div><h3>이미 받은 스탬프예요</h3><p>${pad(z.no)} ${esc(z.name)} · ${hm(S.stamps[z.id])} 체험</p>
+      <button class="btn pri" id="mRec">📷 결과 기록 보기</button><button class="btn ghost" onclick="__closeModal()">닫기</button>`);
+    $('#mRec').onclick=()=>{ closeModal(); go('rec',z.id); };
+    return;
+  }
+  const wasComplete=complete();
+  S.stamps[z.id]=Date.now(); save(); stat('stamp',z.id);
+  if(navigator.vibrate) navigator.vibrate([40,40,80]);
+  go('home');
+  const n=count(), nowComplete=!wasComplete&&complete();
+  if(nowComplete) stat('complete');
+  confetti();
+  modal(`<div class="bigstamp" style="color:${z.color}"><div class="ring2"><b>${pad(z.no)}</b><span>체험 완료</span></div><img src="img/ai-dami.png" alt="AI다미"></div>
+    <h3>${esc(z.name)} 스탬프 확인!</h3>
+    <p>${nowComplete?`<b style="color:#B37400;font-size:16px">🎁 축하해요! ${esc(PRZ)} 기회를 얻었어요!</b><br>이벤트 데스크에서 스태프에게 화면을 보여주세요.<br><br>`:''}지금까지 <b>${n} / ${N}</b>개 모았어요.<br>받은 <b>결과지·결과 화면</b>을 사진으로 남겨볼까요?</p>
+    <button class="btn pri" id="mRec">📷 결과 기록하러 가기</button><button class="btn ghost" onclick="__closeModal()">나중에 할게요</button>`);
+  $('#mRec').onclick=()=>{ closeModal(); go('rec',z.id); };
+}
+
+/* ---------- scanner ---------- */
+let stream=null, raf=0, lastBad=0;
+async function openScan(){
+  $('#scan').classList.add('on'); $('#scanErr').classList.remove('on');
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+    const v=$('#vid'); v.srcObject=stream; await v.play(); tick();
+  }catch(e){
+    $('#scanErr').classList.add('on');
+    if(location.protocol!=='https:'&&location.hostname!=='localhost'){ $('#scanErrS').innerHTML='보안 연결(https) 주소에서만 카메라를 쓸 수 있어요.<br>아래 \'번호로 입력하기\'를 이용해 주세요.'; }
+  }
+}
+function closeScan(){ cancelAnimationFrame(raf); if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; } $('#scan').classList.remove('on'); }
+function tick(){
+  const v=$('#vid');
+  if(v.readyState>=2){
+    const cv=$('#cv'), w=480, h=Math.round(w*v.videoHeight/v.videoWidth)||480;
+    cv.width=w; cv.height=h; const ctx=cv.getContext('2d',{willReadFrequently:true});
+    ctx.drawImage(v,0,0,w,h);
+    const d=ctx.getImageData(0,0,w,h);
+    const r=jsQR(d.data,w,h,{inversionAttempts:'dontInvert'});
+    if(r&&r.data){
+      const z=resolveToken(r.data);
+      if(z&&z!=='start'){ closeScan(); doStamp(z); return; }
+      if(z==='start'){ closeScan(); toast('입장용 QR이에요. 체험 프로그램의 QR을 찍어주세요'); return; }
+      if(Date.now()-lastBad>2500){ lastBad=Date.now(); toast('체험 프로그램 QR이 아니에요'); }
+    }
+  }
+  raf=requestAnimationFrame(tick);
+}
+$('#btnScan').addEventListener('click',openScan);
+$('#scanX').addEventListener('click',closeScan);
+$('#scanCode').addEventListener('click',()=>{ closeScan(); codeModal(); });
+function codeModal(){
+  modal(`<h3>번호로 입력하기</h3><p>QR 패널 하단의 <b>4자리 번호</b>를 입력하세요</p>
+    <div class="codein">${[0,1,2,3].map(i=>`<input inputmode="numeric" maxlength="1" data-i="${i}">`).join('')}</div>
+    <button class="btn pri" id="codeOk">스탬프 받기</button><button class="btn ghost" onclick="__closeModal()">취소</button>`);
+  const ins=[...document.querySelectorAll('.codein input')];
+  ins.forEach((el,i)=>{ el.addEventListener('input',()=>{ el.value=el.value.replace(/\D/g,''); if(el.value&&ins[i+1]) ins[i+1].focus(); });
+    el.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!el.value&&ins[i-1]) ins[i-1].focus(); }); });
+  setTimeout(()=>ins[0].focus(),100);
+  $('#codeOk').onclick=()=>{ const c=ins.map(x=>x.value).join(''); const z=Z.find(z=>z.code===c);
+    if(!z){ toast('번호를 다시 확인해 주세요'); ins.forEach(x=>x.value=''); ins[0].focus(); return; }
+    closeModal(); doStamp(z); };
+}
+
+$('#btnSurvey').addEventListener('click',()=>{ if(C.surveyUrl) window.open(C.surveyUrl,'_blank'); });
+$('#btnSurvey').classList.toggle('hide', !C.surveyUrl);
+$('#btnReset').addEventListener('click',()=>{
+  modal(`<h3>모든 기록을 지울까요?</h3><p>스탬프·결과 수치·사진이 이 휴대폰에서<br>모두 삭제되며 되돌릴 수 없어요.</p><button class="btn pri" id="rsOk" style="background:var(--danger)">모두 지우기</button><button class="btn ghost" onclick="__closeModal()">취소</button>`);
+  $('#rsOk').onclick=()=>{ DB.clear().catch(()=>{}); PC={}; localStorage.removeItem(KEY); S=null; closeModal(); go('intro'); };
+});
+
+/* ---------- boot: URL에 구역 코드(?s=)가 있으면 바로 스탬프 ---------- */
+refreshCounts().then(()=>{
+  const params=new URLSearchParams(location.search);
+  const sTok=params.get('s');
+  if(sTok){ history.replaceState(null,'',location.pathname+location.hash); }
+  const hit=sTok?Z.find(z=>z.token===sTok):null;
+  if(hit){ if(!S) newState(''); doStamp(hit); }
+  else route(false);
+  flush();
+});
+
+if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>G-NEX 스탬프 QR 패널 출력</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* A5 (148×210mm) 7장: 입장 1 + 체험 프로그램 6 — 브라우저 인쇄(Ctrl+P) → 용지 A5, 여백 없음, 배경 그래픽 체크 */
+@page{size:148mm 210mm;margin:0}
+:root{--navy:#0E275D;--blue:#005C99;--blue2:#1D6FD0;--yellow:#F5C21B;--wave:#DFEBF7;--sub:#5B6779;--mute:#97A3B4;--line:#E2E9F2}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#E9EEF4}
+body{font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1B2433;-webkit-print-color-adjust:exact;print-color-adjust:exact;word-break:keep-all}
+.tools{max-width:900px;margin:20px auto;padding:16px 20px;background:#fff;border-radius:14px;font-size:14px;line-height:1.6}
+.tools input{width:100%;font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px}
+.tools button{font:inherit;font-weight:800;background:var(--navy);color:#fff;border:0;border-radius:8px;padding:9px 16px;margin-top:8px;cursor:pointer}
+.pages{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;padding:0 0 40px}
+.pg{width:148mm;height:210mm;background:#fff;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+@media print{ .tools{display:none} .pages{display:block;padding:0} .pg{box-shadow:none;page-break-after:always;break-after:page} html,body{background:#fff} }
+
+.side{position:absolute;left:0;top:0;bottom:0;width:4.2mm}
+.in{position:absolute;inset:0 0 0 0;padding:11mm 10mm 0 12mm}
+.hd{display:flex;align-items:center;justify-content:space-between;padding-bottom:4.2mm;border-bottom:1.1mm solid var(--navy)}
+.hd .lg{display:flex;align-items:center;gap:2.6mm}
+.hd .lg img{height:6.2mm;width:auto}
+.hd .lg img.a{height:10.5mm}
+.hd .lg i{width:.3mm;height:6mm;background:#C9D3E0}
+.hd .bn{text-align:right;font-size:8.2pt;font-weight:800;color:var(--navy);line-height:1.35}
+.hd .bn small{display:block;font-size:6.6pt;font-weight:800;color:#fff;background:linear-gradient(90deg,#0E275D,#1D6FD0);border-radius:99px;padding:.4mm 2.4mm;margin-top:1mm;display:inline-block;letter-spacing:.03em}
+.tag{display:inline-block;margin-top:6.2mm;font-size:8.4pt;font-weight:800;color:#fff;padding:1.1mm 3.6mm;border-radius:99px;background:var(--navy)}
+h1{margin:2.6mm 0 0;font-size:27pt;line-height:1.18;font-weight:900;color:var(--navy);letter-spacing:-.03em}
+h1 em{font-style:normal;color:var(--blue2)}
+h1 .no{font-size:24pt;margin-right:2mm;letter-spacing:-.02em}
+.desc{margin:2.6mm 0 0;font-size:8.6pt;color:var(--sub);line-height:1.5;max-width:118mm}
+.mid{display:flex;align-items:center;gap:6mm;margin-top:6.5mm}
+.qr{width:60mm;height:60mm;flex:none;border:1.1mm solid var(--navy);border-radius:5mm;padding:4mm;background:#fff}
+.qr svg{width:100%;height:100%;display:block}
+.steps{flex:1;display:flex;flex-direction:column;gap:3.6mm}
+.steps .r{display:flex;gap:2.4mm;align-items:flex-start;font-size:9.4pt;font-weight:800;color:var(--navy);line-height:1.35}
+.steps .r i{flex:none;font-style:normal;width:5.2mm;height:5.2mm;border-radius:50%;background:var(--yellow);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:7.6pt;font-weight:900;margin-top:.2mm}
+.steps .r i.g{background:#FFE9A3;font-size:7pt}
+.steps .r span small{display:block;font-size:7.4pt;font-weight:600;color:var(--sub);margin-top:.4mm}
+.code{margin-top:4.6mm;font-size:8pt;color:var(--sub);font-weight:600;display:flex;align-items:center;gap:3mm}
+.code b{font-size:15pt;font-weight:900;color:var(--navy);letter-spacing:2.2mm}
+.res{display:inline-flex;align-items:center;gap:1.6mm;margin-top:2.6mm;font-size:7.8pt;font-weight:800;padding:1.2mm 3mm;border-radius:2.4mm;background:#EEF5FC;color:var(--blue)}
+.wave{position:absolute;left:0;right:0;bottom:0;height:34mm}
+.wave svg{position:absolute;left:0;bottom:0;width:100%;height:26mm}
+.ft{position:absolute;left:12mm;bottom:7.5mm;font-size:7.4pt;color:var(--navy);line-height:1.45;z-index:2}
+.ft b{font-size:8pt;font-weight:900}
+.ch{position:absolute;z-index:3}
+.ch.main{right:7mm;bottom:5mm;height:40mm;width:auto}
+.ch.pose{right:51mm;bottom:7mm;height:24mm;width:auto}
+.ch.medi{right:52mm;bottom:12mm;height:11mm;width:auto}
+.plus{position:absolute;z-index:2;font-weight:900;color:#3BB273;font-size:13pt}
+.dot{position:absolute;border-radius:50%;z-index:2}
+</style>
+</head>
+<body>
+<div class="tools">
+  <b>G-NEX 스탬프 QR 패널 (A5 × 7장)</b><br>
+  웹앱 주소를 확인한 뒤 <b>인쇄(Ctrl+P / ⌘+P)</b> → 용지 <b>A5</b>, 여백 <b>없음</b>, <b>배경 그래픽</b> 체크 → PDF 저장 또는 출력하세요.<br>
+  <label>웹앱 주소 (QR에 들어가는 주소)<input id="base"></label>
+  <button id="apply">이 주소로 QR 다시 만들기</button>
+</div>
+<div class="pages" id="pages"></div>
+
+<script src="config.js"></script>
+<script src="lib/qrcode.js"></script>
+<script>
+(function(){
+const C=window.APP_CONFIG, Z=C.zones;
+const pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const qs=new URLSearchParams(location.search);
+let BASE=qs.get('base')||C.appUrl;
+document.getElementById('base').value=BASE;
+document.getElementById('apply').onclick=()=>{ BASE=document.getElementById('base').value.trim(); render(); };
+
+function qrSvg(text,color){
+  const q=qrcode(0,'M'); q.addData(text); q.make();
+  const n=q.getModuleCount(); let p='';
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(q.isDark(r,c)) p+=`M${c} ${r}h1v1h-1z`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path d="${p}" fill="${color}"/></svg>`;
+}
+const TH=C.prizeThreshold||3, PRZ=C.prizeName||'기념품 뽑기';
+const header=()=>`<div class="hd"><span class="lg"><img class="a" src="img/logo.png" alt=""><i></i><img src="img/logo-anchor.png" alt=""></span><span class="bn">${esc(C.boothName)}<br><small>G-NEX 2026 · ${esc(C.boothNo||'')}</small></span></div>`;
+const bottom=(pose)=>`<div class="wave"><svg viewBox="0 0 400 80" preserveAspectRatio="none"><path d="M0 34 C 90 6, 170 50, 260 26 S 370 14, 400 30 L400 80 L0 80Z" fill="#DFEBF7"/></svg></div>
+  <span class="plus" style="right:44mm;bottom:33mm">✚</span><span class="dot" style="width:2mm;height:2mm;background:#F5C21B;right:36mm;bottom:40mm"></span><span class="dot" style="width:1.6mm;height:1.6mm;background:#F08BA6;right:6mm;bottom:44mm"></span>
+  ${pose?`<img class="ch pose" src="${pose}" alt="">`:`<img class="ch medi" src="img/medi.png" alt="">`}<img class="ch main" src="img/ai-dami.png" alt="">
+  <div class="ft"><b>${esc(C.eventName)}</b><br>${esc(C.eventDate)}</div>`;
+
+function entrance(){
+  return `<div class="pg"><div class="in">${header()}
+    <span class="tag">입장 · 체험 스탬프</span>
+    <h1>QR 찍고<br><em>AI다미와 건강 체험!</em></h1>
+    <p class="desc">6가지 스마트헬스 체험 · 스탬프 모으고 결과지 사진까지 내 휴대폰에 기록하기</p>
+    <div class="mid"><div class="qr">${qrSvg(BASE,'#0E275D')}</div>
+      <div class="steps">
+        <div class="r"><i>1</i><span>휴대폰 카메라로<br>QR 스캔</span></div>
+        <div class="r"><i>2</i><span>체험 스탬프<br>앱 시작하기</span></div>
+        <div class="r"><i>3</i><span>체험마다 QR 찍고<br>스탬프 + 결과 기록</span></div>
+        <div class="r"><i class="g">🎁</i><span>스탬프 ${TH}개 이상이면<br>${esc(PRZ)}!</span></div>
+      </div></div>
+    <div class="code" style="margin-top:5mm">로그인·개인정보 입력 없이 바로 시작해요 · 기록은 내 휴대폰에만 저장</div>
+  </div>${bottom(null)}</div>`;
+}
+function zone(z){
+  const url=BASE+(BASE.includes('?')?'&':'?')+'s='+encodeURIComponent(z.token);
+  return `<div class="pg"><div class="side" style="background:${z.color}"></div><div class="in">${header()}
+    <span class="tag" style="background:${z.color}">체험 프로그램 스탬프</span>
+    <h1><span class="no" style="color:${z.color}">${pad(z.no)}</span>${esc(z.name)}</h1>
+    <p class="desc">${esc(z.sub)} — ${esc(z.desc)}</p>
+    <div class="mid"><div class="qr" style="border-color:${z.color}">${qrSvg(url,'#0E275D')}</div>
+      <div class="steps">
+        <div class="r"><i>1</i><span>체험을 마치면</span></div>
+        <div class="r"><i>2</i><span>스탬프 앱의<br>[QR 찍고 스탬프 받기]</span></div>
+        <div class="r"><i>3</i><span>결과지·결과 화면<br>사진으로 기록</span></div>
+        <div class="r"><i class="g">🎁</i><span>스탬프 ${TH}개 모으면<br>${esc(PRZ)}!</span></div>
+      </div></div>
+    <div class="code">QR이 인식되지 않으면 앱에서 [번호로 입력하기] <b>${esc(z.code)}</b></div>
+    <span class="res">📄 결과지 · ${esc(z.result.split(/\s—\s/)[0])}</span>
+  </div>${bottom(z.img)}</div>`;
+}
+function render(){ document.getElementById('pages').innerHTML = entrance()+Z.map(zone).join(''); }
+render();
+})();
+</script>
+</body>
+</html>
