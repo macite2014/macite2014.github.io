@@ -268,7 +268,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
       <div class="stepc">
         <div class="row"><div class="n">1</div><div><b>6개 체험 구역을 돌아보세요</b><span>혈압·체성분부터 스트레스·마음 건강까지</span></div></div>
         <div class="row"><div class="n">2</div><div><b>구역마다 QR 패널을 찍으면 스탬프!</b><span>이 화면의 'QR 찍고 스탬프 받기' 버튼을 눌러주세요</span></div></div>
-        <div class="row"><div class="n">3</div><div><b>스탬프를 모아 경품 받기</b><span id="introPrizeTxt">스탬프를 모두 모으면 경품을 드려요</span></div></div>
+        <div class="row"><div class="n">3</div><div><b>스탬프 모으고 룰렛 이벤트 참여!</b><span id="introPrizeTxt">스탬프 3개 이상 모으면 룰렛 이벤트 참여 기회를 드려요</span></div></div>
       </div>
     </div>
     <div class="form">
@@ -383,7 +383,7 @@ function modal(html){ $('#modal').innerHTML=html; $('#ov').classList.add('on'); 
 function closeModal(){ $('#ov').classList.remove('on'); }
 $('#ov').addEventListener('click', e=>{ if(e.target.id==='ov') closeModal(); });
 document.querySelectorAll('[data-t]').forEach(el=>el.textContent=C[el.dataset.t]||'');
-$('#introPrizeTxt').textContent = TH>=N ? '스탬프 '+N+'개를 모두 모으면 경품을 드려요' : '스탬프 '+TH+'개 이상 모으면 경품을 드려요';
+$('#introPrizeTxt').textContent = '스탬프 '+TH+'개 이상 모으면 룰렛 이벤트 참여 기회를 드려요';
 
 /* ---------- health reference (참고용) ---------- */
 function bpLv(s,d){ if(!s||!d) return null;
@@ -430,8 +430,8 @@ function renderHome(){
   $('#ringTxt').innerHTML = n+'<small>/'+N+'</small>';
   $('#ringBar').style.strokeDashoffset = 175.9*(1-n/N);
   const left = TH-n;
-  $('#progTitle').textContent = n===0 ? '첫 스탬프를 받아보세요!' : (n>=N ? '모든 구역 체험 완료! 🎉' : (left>0 ? '경품까지 스탬프 '+left+'개 남았어요' : '경품 조건 달성! 남은 구역도 체험해 보세요'));
-  $('#progSub').textContent = n===0 ? '구역 QR 패널을 찍으면 스탬프가 찍혀요' : (n>=N ? '경품 증정 데스크에서 스태프에게 이 화면을 보여주세요' : '남은 구역도 체험하고 스탬프를 모아보세요');
+  $('#progTitle').textContent = n===0 ? '첫 스탬프를 받아보세요!' : (n>=N ? '모든 구역 체험 완료! 🎉' : (left>0 ? '룰렛 이벤트까지 스탬프 '+left+'개 남았어요' : (S.prize ? '🎡 룰렛 이벤트 참여 완료!' : '🎡 룰렛 이벤트 참여 기회 획득!')));
+  $('#progSub').textContent = n===0 ? '구역 QR 패널을 찍으면 스탬프가 찍혀요' : (S.prize ? '룰렛 이벤트 참여 완료! 남은 구역도 즐겁게 체험해 보세요' : (n>=TH ? '룰렛 이벤트 데스크에서 스태프에게 이 화면을 보여주세요' : '남은 구역도 체험하고 스탬프를 모아보세요'));
   $('#grid').innerHTML = Z.map(z=>{
     const st=S.stamps[z.id];
     const on=!!st;
@@ -456,19 +456,19 @@ function renderHome(){
 /* ---------- prize ---------- */
 function renderPrize(sel){
   const box=$(sel);
-  if(S.prize){ box.innerHTML=`<div class="prize done"><h3>🎁 경품 수령 완료</h3><p>${fmtT(S.prize)} 수령 · 참여해 주셔서 감사합니다!</p><img src="img/ai-dami.png" alt="AI다미"></div>`; return; }
+  if(S.prize){ box.innerHTML=`<div class="prize done"><h3>🎡 룰렛 이벤트 참여 완료</h3><p>${fmtT(S.prize)} 참여 · 함께해 주셔서 감사합니다!</p><img src="img/ai-dami.png" alt="AI다미"></div>`; return; }
   if(!complete()){ box.innerHTML=''; return; }
-  box.innerHTML=`<div class="prize"><h3>🎉 경품 받을 수 있어요!</h3><p>입구의 <b>경품 증정 데스크</b>에서<br>스태프에게 이 화면을 보여주세요.</p><button class="btn pri" data-prize>스태프 확인</button><img src="img/ai-dami.png" alt="AI다미"></div>`;
+  box.innerHTML=`<div class="prize"><h3>🎡 룰렛 이벤트 참여 기회!</h3><p>스탬프 ${TH}개 달성! <b>룰렛 이벤트 데스크</b>에서<br>스태프에게 이 화면을 보여주세요.</p><button class="btn pri" data-prize>스태프 확인</button><img src="img/ai-dami.png" alt="AI다미"></div>`;
   box.querySelector('[data-prize]').onclick=staffPin;
 }
 function staffPin(){
   modal(`<h3>스태프 확인</h3><p>스태프가 확인 번호를 입력해요</p>
     <div class="codein"><input id="pin" type="password" inputmode="numeric" maxlength="8" style="width:180px;letter-spacing:8px" autocomplete="off"></div>
-    <button class="btn pri" id="pinOk">경품 지급 처리</button><button class="btn ghost" onclick="this.closest('.ov').classList.remove('on')">취소</button>`);
+    <button class="btn pri" id="pinOk">룰렛 참여 처리</button><button class="btn ghost" onclick="this.closest('.ov').classList.remove('on')">취소</button>`);
   setTimeout(()=>$('#pin').focus(),100);
   $('#pinOk').onclick=()=>{
     if($('#pin').value!==String(C.staffPin)){ toast('확인 번호가 맞지 않아요'); $('#pin').value=''; return; }
-    S.prize=Date.now(); save(); stat('prize'); closeModal(); confetti(); toast('경품 지급 처리되었어요');
+    S.prize=Date.now(); save(); stat('prize'); closeModal(); confetti(); toast('룰렛 이벤트 참여 처리되었어요'); renderHome();
     renderPrize('#prizeHome');
   };
 }
@@ -497,7 +497,7 @@ function doStamp(z){
   confetti();
   modal(`<div class="bigstamp" style="color:${z.color}"><div class="ring2"><b>${String(z.no).padStart(2,'0')}</b><span>체험 완료</span></div><img src="img/ai-dami.png" alt="AI다미"></div>
     <h3>${esc(z.name)} 스탬프 획득!</h3>
-    <p>${nowComplete?'<b style="color:#B37400">🎁 경품 조건을 달성했어요!</b><br>':''}지금까지 <b>${n} / ${N}</b>개 모았어요.<br>${n>=N?'모든 구역을 체험했어요!':'다음 구역도 체험해 보세요!'}</p>
+    <p>${nowComplete?'<b style="color:#B37400;font-size:16px">🎡 축하해요! 룰렛 이벤트 참여 기회를 얻었어요!</b><br>룰렛 이벤트 데스크에서 스태프에게 이 화면을 보여주세요.<br><br>':''}지금까지 <b>${n} / ${N}</b>개 모았어요.<br>${n>=N?'모든 구역을 체험했어요!':'다음 구역도 체험해 보세요!'}</p>
     <button class="btn pri" onclick="this.closest('.ov').classList.remove('on')">확인</button>`);
 }
 
