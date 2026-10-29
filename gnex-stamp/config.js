@@ -5,7 +5,6 @@
 window.APP_CONFIG = {
   eventName: "2026 경남 글로벌 혁신 페스타(G-NEX)",
   boothName: "김해대학교 스마트헬스 체험관",
-  boothNo: "11번 부스",
   eventDate: "2026. 11. 2(월) – 4(수)",
 
   /* 웹앱 주소 (QR 패널에 들어가는 주소). GitHub Pages에 올린 주소와 반드시 같아야 합니다. */

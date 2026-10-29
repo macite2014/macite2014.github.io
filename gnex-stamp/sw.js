@@ -1,5 +1,5 @@
 /* 오프라인 캐시: 한 번 접속하면 행사장 인터넷이 불안정해도 앱이 열립니다 */
-const V='gnex-v1';
+const V='gnex-v2';
 const ASSETS=['./','index.html','config.js','manifest.json','lib/jsQR.js','lib/html2canvas.min.js',
  'img/logo.png','img/logo-anchor.png','img/ai-dami.png','img/medi.png','img/icon-192.png',
  'img/physio.png','img/joy.png','img/fighting.png','img/lab.png','img/love.png','img/study.png',

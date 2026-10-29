@@ -84,7 +84,7 @@ function qrSvg(text,color){
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path d="${p}" fill="${color}"/></svg>`;
 }
 const TH=C.prizeThreshold||3, PRZ=C.prizeName||'기념품 뽑기';
-const header=()=>`<div class="hd"><span class="lg"><img class="a" src="img/logo.png" alt=""><i></i><img src="img/logo-anchor.png" alt=""></span><span class="bn">${esc(C.boothName)}<br><small>G-NEX 2026 · ${esc(C.boothNo||'')}</small></span></div>`;
+const header=()=>`<div class="hd"><span class="lg"><img class="a" src="img/logo.png" alt=""><i></i><img src="img/logo-anchor.png" alt=""></span><span class="bn">${esc(C.boothName)}<br><small>G-NEX 2026</small></span></div>`;
 const bottom=(pose)=>`<div class="wave"><svg viewBox="0 0 400 80" preserveAspectRatio="none"><path d="M0 34 C 90 6, 170 50, 260 26 S 370 14, 400 30 L400 80 L0 80Z" fill="#DFEBF7"/></svg></div>
   <span class="plus" style="right:44mm;bottom:33mm">✚</span><span class="dot" style="width:2mm;height:2mm;background:#F5C21B;right:36mm;bottom:40mm"></span><span class="dot" style="width:1.6mm;height:1.6mm;background:#F08BA6;right:6mm;bottom:44mm"></span>
   ${pose?`<img class="ch pose" src="${pose}" alt="">`:`<img class="ch medi" src="img/medi.png" alt="">`}<img class="ch main" src="img/ai-dami.png" alt="">
