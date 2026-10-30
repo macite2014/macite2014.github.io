@@ -1,5 +1,5 @@
 /* 오프라인 캐시: 한 번 접속하면 행사장 인터넷이 불안정해도 앱이 열립니다 */
-const V='ghs-v7';
+const V='ghs-v8';
 const ASSETS=['./','index.html','config.js','manifest.json','lib/jsQR.js','lib/html2canvas.min.js',
  'img/logo.png','img/logo.svg','img/logo-anchor.png','img/hello.png','img/joy.png','img/guide.png','img/grad.png','img/fighting.png','img/love.png','img/medi.png',
  'img/nurse.png','img/physio.png','img/ai.png','img/study.png','img/icon-192.png','img/ai-dami.png','img/lab.png'];
