@@ -288,6 +288,39 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
 .rz.none .h .eqi{filter:grayscale(1);opacity:.4}
 .rz .rcnt{font-size:11px;font-weight:700;color:var(--mute);margin-top:8px}
 .shot{width:100%;border-radius:14px;margin:0 0 12px;border:1px solid var(--line)}
+
+/* consent */
+.cshead{background:#fff;padding:20px 20px 16px;border-bottom:1px solid var(--line)}
+.cshead .meta{font-size:12px;color:var(--blue);font-weight:800}
+.cshead h1{margin:4px 0 6px;font-size:22px;line-height:1.3;color:var(--navy);font-weight:800;letter-spacing:-.02em}
+.cshead p{margin:0;font-size:13px;color:var(--sub);line-height:1.55}
+.csall{display:flex;align-items:center;gap:10px;width:100%;background:var(--navy);color:#fff;border-radius:16px;padding:14px 16px;font-weight:800;font-size:15.5px;margin:14px 0 2px;text-align:left}
+.csall .ck{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.csall.on .ck{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+.csall small{display:block;font-size:11.5px;font-weight:600;opacity:.8}
+.cs h3{font-size:15px}
+.cs table{width:100%;border-collapse:collapse;margin:8px 0 8px;font-size:12.5px;line-height:1.5}
+.cs th{width:31%;text-align:left;vertical-align:top;color:var(--navy);background:#F4F7FB;font-weight:700;padding:8px;border:1px solid var(--line)}
+.cs td{vertical-align:top;color:var(--ink);padding:8px;border:1px solid var(--line)}
+.cs .ntc{font-size:12px;color:var(--sub);margin:0 0 10px;line-height:1.5}
+.yn{display:flex;gap:8px}
+.yn label{flex:1;position:relative}
+.yn input{position:absolute;opacity:0;pointer-events:none}
+.yn span{display:flex;align-items:center;justify-content:center;gap:6px;height:46px;border-radius:12px;border:1.5px solid var(--line);font-weight:800;font-size:14.5px;color:var(--sub);background:#fff}
+.yn input:checked+span{border-color:var(--navy);background:var(--navy);color:#fff}
+.yn input.no:checked+span{border-color:#9AA6B6;background:#9AA6B6}
+.cs.dis{opacity:.45;pointer-events:none}
+.cs.err{box-shadow:0 0 0 2px var(--danger)}
+.csfoot{font-size:12px;color:var(--sub);line-height:1.6;margin:0;padding-left:16px}
+.csfoot li{margin-bottom:4px}
+.sig{position:relative;border:1.5px dashed #B9C5D6;border-radius:14px;background:#FBFCFE;height:150px;touch-action:none}
+.sig canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:14px}
+.sig .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#B9C5D6;font-weight:700;font-size:14px;pointer-events:none}
+.sig .clr{position:absolute;right:8px;top:8px;font-size:12px;font-weight:700;color:var(--sub);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;z-index:2}
+.pledge{font-size:13px;color:var(--navy);font-weight:700;line-height:1.55;background:var(--wave);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+.csdate{font-size:13px;color:var(--sub);text-align:right;margin-top:8px}
+.sync{font-size:11px;color:var(--mute);margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -320,14 +353,21 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
       </div>
     </div>
     <div class="form">
-      <label class="lbl" for="nick">스탬프판에 표시할 이름(별명)</label>
-      <input class="inp" id="nick" maxlength="10" placeholder="예) 김해다미 (선택)" autocomplete="off">
-      <div class="note"><span>🔒</span><div><b>개인정보를 수집하지 않아요.</b><br>이름·연락처를 받지 않으며, 스탬프·결과 기록·사진은 <b>내 휴대폰에만</b> 저장됩니다.</div></div>
+      <div class="note" style="margin-top:0"><span>📝</span><div><b>시작 전에 참여 동의를 받아요.</b><br>김해대학교 「개인정보 수집·이용 및 연구 활용 동의서」에 동의하면 스탬프·측정 기록이 체험 운영과 연구를 위해 안전하게 수집돼요. <b>연구 활용 동의는 선택</b>이에요.</div></div>
     </div>
     <div class="introbottom">
-      <button class="btn pri" id="btnStart">체험 시작하기</button>
+      <button class="btn pri" id="btnStart">동의하고 체험 시작하기</button>
       <div class="foot"><span data-t="boothName"></span><br><span data-t="eventDate"></span></div>
     </div>
+  </section>
+
+  <!-- ===== CONSENT (참여 동의) ===== -->
+  <section class="view" id="v-consent">
+    <div class="top"><button class="back" id="csBack">‹ 처음으로</button><span class="chip">참여 동의</span></div>
+    <div class="cshead"><div class="meta" id="csOrg"></div><h1 id="csTitle"></h1><p id="csIntro"></p>
+      <button class="csall" id="csAll"><span class="ck">✓</span><span>전체 동의하기<small>필수 1·2번과 선택 3번(연구 활용)에 모두 동의</small></span></button></div>
+    <div class="rbody" style="margin-top:12px" id="csBody"></div>
+    <div class="bar"><button class="btn pri" id="csOk">동의서 제출하고 시작하기</button></div>
   </section>
 
   <!-- ===== HOME (스탬프판) ===== -->
@@ -356,7 +396,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
       <h2>체험 프로그램 <small>스탬프를 누르면 결과 기록</small></h2>
       <div class="grid" id="grid"></div>
     </div>
-    <div class="foot"><span data-t="eventName"></span> · <span data-t="eventDate"></span><br><button class="btn ghost" id="btnReset" style="height:36px;font-size:12px;width:auto;margin:6px auto 0;color:var(--mute)">스탬프·기록 모두 지우기</button></div>
+    <div class="foot"><span data-t="eventName"></span> · <span data-t="eventDate"></span><br><span class="sync" id="syncTxt"></span><br><button class="btn ghost" id="btnReset" style="height:36px;font-size:12px;width:auto;margin:6px auto 0;color:var(--mute)">스탬프·기록 모두 지우기</button></div>
     <div class="bar" id="homeBar">
       <button class="btn pri" id="btnScan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg>QR 찍고 스탬프 받기</button>
       <div class="sub"><button class="btn line" id="btnRep">📋 나의 체험 기록</button><button class="btn line hide" id="btnSurvey">📝 만족도 조사</button></div>
@@ -434,7 +474,7 @@ function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); return true;
 function newState(nick){
   const pid = (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))).slice(0,12);
   S = { v:1, pid, nick: nick||'', created: Date.now(), stamps:{}, records:{}, prize:null };
-  save(); stat('start');
+  save();
   try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
 }
 const count = () => S ? Object.keys(S.stamps).filter(id=>zById(id)).length : 0;
@@ -470,20 +510,57 @@ function compress(file){
   });
 }
 
-/* ---------- anonymous stats (optional) ---------- */
-function stat(ev, zone){
-  if(!C.statsEndpoint || !S) return;
-  try{ const q = JSON.parse(localStorage.getItem('gnex-q')||'[]');
-  q.push({pid:S.pid, ev, zone:zone||'', ts:new Date().toISOString()});
-  localStorage.setItem('gnex-q', JSON.stringify(q)); flush(); }catch(e){}
+/* ---------- data sync (동의 범위 내 전송 → 구글 스프레드시트) ---------- */
+const EP = C.dataEndpoint || '';
+const OKEY = 'gnex-out-v1';
+let OUT = []; try{ OUT = JSON.parse(localStorage.getItem(OKEY)) || []; }catch(e){ OUT=[]; }
+const saveOut = () => { try{ localStorage.setItem(OKEY, JSON.stringify(OUT)); }catch(e){} };
+const CS = () => (S && S.consent) || {};
+function allowed(t){ const c=CS(); if(!c.c1) return false; if(t==='record'||t==='photo'||t==='photoDel') return !!c.c2; return true; }
+function enqueue(job){
+  if(!S || !allowed(job.t)) return;
+  if(job.t==='record' && OUT.some(j=>j.t==='record'&&j.zone===job.zone)) { pump(); return; }
+  OUT.push(job); saveOut(); syncTxt(); pump();
 }
-function flush(){
-  if(!C.statsEndpoint || !navigator.onLine) return;
-  let q=[]; try{ q = JSON.parse(localStorage.getItem('gnex-q')||'[]'); }catch(e){} if(!q.length) return;
-  fetch(C.statsEndpoint, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(q)})
-    .then(()=>localStorage.setItem('gnex-q','[]')).catch(()=>{});
+function stat(ev, zone){ /* 이전 버전 호환: 스탬프·기념품만 서버 기록 */
+  if(ev==='stamp') enqueue({t:'stamp', zone});
+  if(ev==='prize') enqueue({t:'prize'});
 }
-window.addEventListener('online', flush);
+function zoneInfo(id){ const z=zById(id); return z?{zone:id, zoneNo:z.no, zoneName:z.name}:{zone:id}; }
+async function buildPayload(j){
+  const base = { v:1, t:j.t, pid:S?S.pid:'', event:C.eventName, cver:(CS().version||''), sent:new Date().toISOString() };
+  if(j.t==='consent'){ const c=CS(); return Object.assign(base,{ name:c.name, birth:c.birth, phone:c.phone, guardian:c.guardian||'', c1:!!c.c1, c2:!!c.c2, c3:!!c.c3, agreedAt:new Date(c.ts).toISOString(), sig:j.sig||'' }); }
+  if(j.t==='stamp'){ return Object.assign(base, zoneInfo(j.zone), { at:new Date(S.stamps[j.zone]||Date.now()).toISOString() }); }
+  if(j.t==='prize'){ return Object.assign(base, { at:new Date(S.prize||Date.now()).toISOString() }); }
+  if(j.t==='record'){ const z=zById(j.zone), r=S.records[j.zone]||{v:{}};
+    const items = z.fields.map(f=>{ const v=r.v[f.key]; let val='';
+      if(f.type==='bp') val = v&&(v.s||v.d) ? (v.s||'')+'/'+(v.d||'') : ''; else val = v==null?'':String(v);
+      return { label: f.label + (f.unit?' ('+f.unit+')':''), value: val }; });
+    return Object.assign(base, zoneInfo(j.zone), { items, memo:r.memo||'', at:new Date(r.ts||Date.now()).toISOString() }); }
+  if(j.t==='photo'){ const p=await DB.get(j.id).catch(()=>null); if(!p) return null;
+    return Object.assign(base, zoneInfo(p.zone), { photoId:p.id, at:new Date(p.ts).toISOString(), data:p.data }); }
+  if(j.t==='photoDel'){ return Object.assign(base, { photoId:j.id }); }
+  return null;
+}
+let busy=false, retryT=0;
+async function pump(){
+  if(busy || !EP || !OUT.length || !navigator.onLine) { syncTxt(); return; }
+  busy=true;
+  const j=OUT[0];
+  try{
+    const body = await buildPayload(j);
+    if(body){ await fetch(EP,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}); }
+    OUT.shift(); saveOut(); busy=false; syncTxt(); pump();
+  }catch(e){ busy=false; syncTxt(); clearTimeout(retryT); retryT=setTimeout(pump,15000); }
+}
+function syncTxt(){
+  const el=$('#syncTxt'); if(!el) return;
+  if(!S || !CS().c1){ el.textContent = S&&S.consent ? '🔒 동의하지 않아 기록은 이 휴대폰에만 저장돼요' : ''; return; }
+  el.textContent = OUT.length ? ('☁️ 전송 대기 '+OUT.length+'건'+(EP?(navigator.onLine?' · 전송 중…':' · 인터넷 연결 시 자동 전송'):' · 수집 서버 준비 중')) : '☁️ 동의한 기록이 모두 전송되었어요';
+}
+const flush = pump;
+window.addEventListener('online', pump);
+setInterval(pump, 30000);
 
 /* ---------- utils ---------- */
 const fmtT = ts => { const d=new Date(ts); return (d.getMonth()+1)+'/'+d.getDate()+' '+pad(d.getHours())+':'+pad(d.getMinutes()); };
@@ -522,33 +599,138 @@ function filledCount(id){ const r=S.records[id]; if(!r) return 0; const z=zById(
 
 /* ---------- router ---------- */
 function go(view, arg, push=true){
-  if(!S && view!=='intro') view='intro';
+  if(view!=='intro' && view!=='consent' && !(S&&S.consent)) view = S ? 'consent' : 'intro';
   if(view==='rec' && (!arg || !zById(arg) || !S.stamps[arg])) view='home';
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   if(view==='home') renderHome();
   if(view==='rec') renderRec(arg);
   if(view==='rep') renderRep();
+  if(view==='consent') renderConsent();
   $('#v-'+view).classList.add('on');
   window.scrollTo(0,0);
-  const h = view==='home'||view==='intro' ? '' : '#'+view+(arg?'='+arg:'');
+  const h = view==='home'||view==='intro'||view==='consent' ? '' : '#'+view+(arg?'='+arg:'');
   if(push && location.hash!==h) history.pushState({view,arg},'',location.pathname+h);
 }
 window.addEventListener('popstate', ()=>route(false));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 function route(push){
   const h=location.hash.slice(1); const [v,a]=h.split('=');
-  if(S && (v==='rec'||v==='rep')) go(v,a,push); else go(S?'home':'intro',null,push);
+  if(S && S.consent && (v==='rec'||v==='rep')) go(v,a,push); else go(S?(S.consent?'home':'consent'):'intro',null,push);
 }
 
 /* ---------- intro ---------- */
-$('#btnStart').addEventListener('click',()=>{
-  newState($('#nick').value.trim());
-  go('home');
+let pendingStamp=null;
+$('#btnStart').addEventListener('click',()=>go('consent'));
+$('#csBack').addEventListener('click',()=>go('intro'));
+function welcome(){
   setTimeout(()=>modal(`<img src="img/ai-dami.png" style="height:104px;width:auto;margin:0 auto 4px">
     <h3>반가워요${S.nick?', '+esc(S.nick)+'님':''}!</h3>
     <p>체험을 마치면<br><b>'QR 찍고 스탬프 받기'</b>로 QR 패널을 찍어주세요.<br>스탬프를 받은 뒤 <b>결과지 사진</b>도 남길 수 있어요.</p>
     <button class="btn pri" onclick="__closeModal()">알겠어요</button>`),250);
+}
+
+/* ---------- consent ---------- */
+const CF = C.consent;
+const csVal = {c1:null,c2:null,c3:null};
+let sigDirty=false;
+function ageOf(b){ const y=+b.slice(0,4),m=+b.slice(4,6),d=+b.slice(6,8); const n=new Date(); let a=n.getFullYear()-y; if(n.getMonth()+1<m||(n.getMonth()+1===m&&n.getDate()<d)) a--; return a; }
+function validBirth(b){ if(!/^\d{8}$/.test(b)) return false; const y=+b.slice(0,4),m=+b.slice(4,6),d=+b.slice(6,8); const dt=new Date(y,m-1,d); return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&y>=1900&&dt<=new Date(); }
+function renderConsent(){
+  $('#csOrg').textContent=CF.org; $('#csTitle').textContent=CF.title; $('#csIntro').textContent=CF.intro;
+  const now=new Date();
+  $('#csBody').innerHTML = CF.sections.map(sec=>`
+    <div class="card cs" id="cs-${sec.key}"><h3>${esc(sec.title)}</h3>
+      <table>${sec.rows.map(r=>`<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</table>
+      <p class="ntc">※ ${esc(sec.notice)}</p>
+      <div class="yn"><label><input type="radio" name="${sec.key}" value="1"><span>동의함</span></label><label><input type="radio" class="no" name="${sec.key}" value="0"><span>동의하지 않음</span></label></div>
+    </div>`).join('') + `
+    <div class="card" id="csInfo"></div>
+    <div class="card"><ul class="csfoot">${CF.footer.map(t=>`<li>${esc(t)}</li>`).join('')}${CF.privacyContact?`<li>개인정보 관리책임자: ${esc(CF.privacyContact)}</li>`:''}</ul></div>
+    <div class="disc" style="margin:0 0 12px">${esc(CF.org)} 총장 귀하 · 동의서 버전 ${esc(CF.version)}</div>`;
+  $('#csBody').querySelectorAll('.yn input').forEach(el=>el.addEventListener('change',()=>{ csVal[el.name]=el.value==='1'; csSync(); }));
+  Object.keys(csVal).forEach(k=>{ if(csVal[k]!==null){ const el=$(`#cs-${k} input[value="${csVal[k]?1:0}"]`); if(el) el.checked=true; } });
+  csSync(true);
+}
+function csSync(force){
+  ['c2','c3'].forEach(k=>$('#cs-'+k).classList.toggle('dis', csVal.c1===false));
+  $('#csAll').classList.toggle('on', csVal.c1&&csVal.c2&&csVal.c3);
+  const box=$('#csInfo'); const mode = csVal.c1===false ? 'local' : 'info';
+  if(!force && box.dataset.mode===mode) return;
+  box.dataset.mode=mode;
+  if(mode==='local'){
+    box.innerHTML=`<h3>동의하지 않고 참여하기</h3><p class="hint">개인정보 수집에 동의하지 않아도 <b>스탬프투어와 기념품 뽑기</b>는 할 수 있어요. 이 경우 어떤 정보도 전송하지 않고, 기록은 <b>이 휴대폰에만</b> 저장돼요. (의료기기 측정 참여는 현장 안내에 따라 제한될 수 있어요)</p>
+      <label class="lbl" for="csNick">스탬프판에 표시할 별명 (선택)</label><input class="inp" id="csNick" maxlength="10" placeholder="예) 김해다미" autocomplete="off">`;
+    return;
+  }
+  const n=new Date();
+  box.innerHTML=`<h3>참여자 정보</h3><p class="hint">1번 동의 시 입력해 주세요. 입력한 정보는 김해대학교로 안전하게 전송돼요.</p>
+    <div class="fld"><label class="lbl" for="csName">성명</label><input class="inp" id="csName" maxlength="20" autocomplete="name" placeholder="홍길동"></div>
+    <div class="fld"><label class="lbl" for="csBirth">생년월일 (8자리)</label><input class="inp" id="csBirth" inputmode="numeric" maxlength="8" placeholder="예) 19800101" autocomplete="bday"></div>
+    <div class="fld"><label class="lbl" for="csPhone">연락처 (휴대전화)</label><input class="inp" id="csPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"></div>
+    <div class="fld hide" id="csGuardBox"><label class="lbl" for="csGuard">법정대리인(보호자) 성명 · 만 14세 미만 필수</label><input class="inp" id="csGuard" maxlength="20" placeholder="보호자 성명">
+      <div class="chips" style="margin-top:8px"><label><input type="checkbox" id="csGuardOk"><span>보호자로서 위 내용에 동의합니다</span></label></div></div>
+    <p class="pledge">${esc(CF.pledge)}</p>
+    <div class="fld"><label class="lbl">서명 <small style="color:var(--mute);font-weight:600">(손가락으로 이름을 써주세요)</small></label>
+      <div class="sig"><canvas id="sigCv"></canvas><span class="ph" id="sigPh">여기에 서명</span><button class="clr" id="sigClr" type="button">지우기</button></div>
+      <div class="csdate">${n.getFullYear()}년 ${n.getMonth()+1}월 ${n.getDate()}일</div></div>`;
+  $('#csBirth').addEventListener('input',e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,8); const b=e.target.value; $('#csGuardBox').classList.toggle('hide', !(validBirth(b)&&ageOf(b)<14)); });
+  $('#csPhone').addEventListener('input',e=>{ let v=e.target.value.replace(/\D/g,'').slice(0,11); e.target.value = v.length>7 ? v.replace(/^(\d{3})(\d{3,4})(\d{4})$/,'$1-$2-$3') : v; });
+  initSig();
+}
+function initSig(){
+  const cv=$('#sigCv'), wrap=cv.parentElement; const r=window.devicePixelRatio||1;
+  const fit=()=>{ cv.width=wrap.clientWidth*r; cv.height=wrap.clientHeight*r; const x=cv.getContext('2d'); x.scale(r,r); x.lineWidth=2.6; x.lineCap='round'; x.lineJoin='round'; x.strokeStyle='#0E275D'; };
+  fit(); sigDirty=false;
+  let drawing=false, last=null; const ctx=()=>cv.getContext('2d');
+  const pt=e=>{ const b=cv.getBoundingClientRect(); return {x:e.clientX-b.left, y:e.clientY-b.top}; };
+  cv.addEventListener('pointerdown',e=>{ if(!sigDirty && cv.width!==Math.round(wrap.clientWidth*r)) fit(); drawing=true; last=pt(e); cv.setPointerCapture(e.pointerId); $('#sigPh').style.display='none'; });
+  cv.addEventListener('pointermove',e=>{ if(!drawing) return; const p=pt(e); const x=ctx(); x.beginPath(); x.moveTo(last.x,last.y); x.lineTo(p.x,p.y); x.stroke(); last=p; sigDirty=true; });
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>cv.addEventListener(t,()=>drawing=false));
+  $('#sigClr').onclick=()=>{ fit(); sigDirty=false; $('#sigPh').style.display=''; };
+}
+function sigData(){ // 흰 배경 작은 PNG
+  const cv=$('#sigCv'); if(!cv.width) return ''; const w=480, h=Math.round(w*cv.height/cv.width);
+  const o=document.createElement('canvas'); o.width=w; o.height=h; const x=o.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,w,h); x.drawImage(cv,0,0,w,h);
+  return o.toDataURL('image/png');
+}
+$('#csAll').addEventListener('click',()=>{
+  const on=!(csVal.c1&&csVal.c2&&csVal.c3);
+  ['c1','c2','c3'].forEach(k=>{ csVal[k]=on?true:null; $(`#cs-${k} input[value="1"]`).checked=on; $(`#cs-${k} input[value="0"]`).checked=false; });
+  csSync();
+  if(on) setTimeout(()=>{ const el=$('#csInfo'); window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'}); },50);
 });
+function csErr(id,msg){ toast(msg); const el=$(id); if(el){ el.classList.add('err'); setTimeout(()=>el.classList.remove('err'),1800); window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'}); if(el.focus&&el.tagName==='INPUT') el.focus(); } }
+$('#csOk').addEventListener('click',()=>{
+  if(csVal.c1===null) return csErr('#cs-c1','1번 개인정보 동의 여부를 선택해 주세요');
+  let c;
+  if(csVal.c1===false){
+    c={c1:false,c2:false,c3:false,ts:Date.now(),version:CF.version};
+    const nick=($('#csNick')||{}).value||'';
+    finishConsent(c, nick.trim(), null); return;
+  }
+  if(csVal.c2===null) return csErr('#cs-c2','2번 민감정보 동의 여부를 선택해 주세요');
+  if(csVal.c3===null) return csErr('#cs-c3','3번 연구 활용 동의 여부를 선택해 주세요 (선택 항목)');
+  const name=$('#csName').value.trim(), birth=$('#csBirth').value.trim(), phone=$('#csPhone').value.replace(/\D/g,'');
+  if(name.length<2) return csErr('#csName','성명을 입력해 주세요');
+  if(!validBirth(birth)) return csErr('#csBirth','생년월일 8자리를 확인해 주세요 (예: 19800101)');
+  if(!/^01\d{8,9}$/.test(phone)) return csErr('#csPhone','휴대전화 번호를 확인해 주세요');
+  let guardian='';
+  if(ageOf(birth)<14){ guardian=$('#csGuard').value.trim(); if(guardian.length<2||!$('#csGuardOk').checked) return csErr('#csGuard','만 14세 미만은 보호자 성명과 동의가 필요해요'); }
+  if(!sigDirty) return csErr('.sig','서명을 해주세요');
+  c={c1:true,c2:!!csVal.c2,c3:!!csVal.c3,name,birth,phone:phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/,'$1-$2-$3'),guardian,ts:Date.now(),version:CF.version};
+  finishConsent(c, name, sigData());
+});
+function finishConsent(c, nick, sig){
+  if(!S) newState(nick); else if(nick) S.nick=nick;
+  S.consent=c; save();
+  if(c.c1){
+    enqueue({t:'consent', sig});
+    Object.keys(S.stamps).forEach(z=>enqueue({t:'stamp',zone:z})); // 동의 전 받은 스탬프
+  }
+  Object.keys(csVal).forEach(k=>csVal[k]=null);
+  go('home');
+  if(pendingStamp){ const z=pendingStamp; pendingStamp=null; doStamp(z); } else welcome();
+}
 
 /* ---------- home ---------- */
 function renderHome(){
@@ -580,6 +762,7 @@ function renderHome(){
     $('#mScan').onclick=()=>{closeModal();openScan();};
   }));
   renderPrize('#prizeHome');
+  syncTxt();
 }
 
 /* ---------- prize ---------- */
@@ -654,10 +837,10 @@ function bindFields(z){
 }
 function autosave(){
   clearTimeout(saveT);
-  saveT=setTimeout(()=>{ if(curZ){ recOf(curZ.id).ts=Date.now(); } if(save()) $('#savedMsg').textContent='✓ 자동 저장됨 · '+hm(Date.now()); },400);
+  saveT=setTimeout(()=>{ if(curZ){ recOf(curZ.id).ts=Date.now(); } if(save()){ $('#savedMsg').textContent='✓ 자동 저장됨 · '+hm(Date.now()); if(curZ) enqueue({t:'record',zone:curZ.id}); } },1200);
 }
 $('#btnRecDone').addEventListener('click',()=>{
-  clearTimeout(saveT); if(curZ) recOf(curZ.id).ts=Date.now(); save(); stat('record',curZ&&curZ.id);
+  clearTimeout(saveT); if(curZ) recOf(curZ.id).ts=Date.now(); save(); if(curZ) enqueue({t:'record',zone:curZ.id});
   toast('기록이 저장되었어요'); go('home');
 });
 
@@ -672,11 +855,10 @@ function pickPhoto(sel){
   toast('사진을 저장하고 있어요…');
   for(const f of files){
     if(room<=0) break;
-    try{ const data=await compress(f); await DB.put({id:z.id+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), zone:z.id, ts:Date.now(), data}); room--; added++; }
+    try{ const data=await compress(f); const pidp=z.id+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); await DB.put({id:pidp, zone:z.id, ts:Date.now(), data}); enqueue({t:'photo',id:pidp}); room--; added++; }
     catch(err){ toast('사진을 저장하지 못했어요'); }
   }
   if(files.length>added && room<=0) toast('최대 '+MAXP+'장까지만 저장했어요'); else if(added) toast('사진 '+added+'장을 기록했어요');
-  if(added){ stat('photo',z.id); }
   await refreshCounts(); renderPhotos();
 }));
 function renderPhotos(){
@@ -698,7 +880,7 @@ function openViewer(id){
 function closeViewer(){ $('#viewer').classList.remove('on'); $('#vImg').removeAttribute('src'); vId=null; }
 $('#vX').onclick=closeViewer; $('#vClose').onclick=closeViewer;
 $('#vDel').onclick=()=>{ if(!vId) return; if(!confirm('이 사진을 삭제할까요?')) return;
-  DB.del(vId).then(refreshCounts).then(()=>{ closeViewer(); renderPhotos(); if($('#v-rep').classList.contains('on')) renderRep(); toast('사진을 삭제했어요'); }); };
+  const delId=vId; OUT=OUT.filter(j=>!(j.t==='photo'&&j.id===delId)); saveOut(); enqueue({t:'photoDel',id:delId}); DB.del(vId).then(refreshCounts).then(()=>{ closeViewer(); renderPhotos(); if($('#v-rep').classList.contains('on')) renderRep(); toast('사진을 삭제했어요'); }); };
 
 /* ---------- report ---------- */
 function renderRep(){
@@ -716,7 +898,7 @@ function renderRep(){
       </div>
       <div class="damisay"><img src="img/ai-dami.png" alt="AI다미"><div class="bub">${n===0?'아직 체험 기록이 없어요. 첫 체험을 시작해 볼까요?':(n>=N?'6가지 체험을 모두 마쳤어요! 꾸준한 건강 관리 응원할게요 💪':'멋져요! 남은 체험도 해보고 기록을 채워보세요.')}</div></div>
       ${Z.map(z=>repZone(z,byZ[z.id]||[])).join('')}
-      <div class="disc">※ 본 기록은 참가자가 직접 입력·촬영한 체험 결과로, 의학적 진단을 대신하지 않습니다. 건강이 걱정되면 전문 의료기관과 상담하세요.<br>※ 기록은 이 휴대폰 브라우저에만 저장돼요. 브라우저 기록을 지우면 함께 삭제되니 필요하면 이미지로 저장해 두세요.</div>
+      <div class="disc">※ 본 기록은 참가자가 직접 입력·촬영한 체험 결과로, 의학적 진단을 대신하지 않습니다. 건강이 걱정되면 전문 의료기관과 상담하세요.<br>※ ${CS().c1?(CS().c2?'동의에 따라 스탬프·측정 기록·사진이 김해대학교로 전송되며, ':'동의에 따라 참여자 정보·스탬프만 김해대학교로 전송되고 측정 기록·사진은 휴대폰에만 남으며, '):'동의하지 않아 아무 정보도 전송되지 않으며, '}이 휴대폰의 기록은 브라우저 기록을 지우면 함께 삭제돼요. 연구 활용 동의: ${CS().c3?'동의함':'동의하지 않음'}</div>
       <div class="repfoot"><span class="logos"><img src="img/logo.png" class="lg-a" alt=""><i></i><img src="img/logo-anchor.png" alt=""></span><span>${esc(C.boothName)}<br>${esc(C.eventDate)}</span></div>`;
     $('#repCard').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>go('rec',b.dataset.edit));
     $('#repCard').querySelectorAll('[data-vp]').forEach(b=>b.onclick=()=>openViewer(b.dataset.vp));
@@ -762,7 +944,7 @@ function resolveToken(txt){
   return Z.find(z=>z.token===tok) || Z.find(z=>z.code===txt) || (tok==='start'?'start':null);
 }
 function doStamp(z){
-  if(!S) newState('');
+  if(!S || !S.consent){ pendingStamp=z; go(S?'consent':'intro'); if(!S) toast('참여 동의 후 스탬프가 찍혀요'); return; }
   if(S.stamps[z.id]){
     go('home');
     modal(`<div class="duo"><img src="img/ai-dami.png" alt="AI다미"><img src="${z.img}" alt=""></div><h3>이미 받은 스탬프예요</h3><p>${pad(z.no)} ${esc(z.name)} · ${hm(S.stamps[z.id])} 체험</p>
@@ -775,7 +957,6 @@ function doStamp(z){
   if(navigator.vibrate) navigator.vibrate([40,40,80]);
   go('home');
   const n=count(), nowComplete=!wasComplete&&complete();
-  if(nowComplete) stat('complete');
   confetti();
   modal(`<div class="bigstamp" style="color:${z.color}"><div class="ring2"><b>${pad(z.no)}</b><span>체험 완료</span></div><img src="img/ai-dami.png" alt="AI다미"></div>
     <h3>${esc(z.name)} 스탬프 확인!</h3>
@@ -833,8 +1014,8 @@ function codeModal(){
 $('#btnSurvey').addEventListener('click',()=>{ if(C.surveyUrl) window.open(C.surveyUrl,'_blank'); });
 $('#btnSurvey').classList.toggle('hide', !C.surveyUrl);
 $('#btnReset').addEventListener('click',()=>{
-  modal(`<h3>모든 기록을 지울까요?</h3><p>스탬프·결과 수치·사진이 이 휴대폰에서<br>모두 삭제되며 되돌릴 수 없어요.</p><button class="btn pri" id="rsOk" style="background:var(--danger)">모두 지우기</button><button class="btn ghost" onclick="__closeModal()">취소</button>`);
-  $('#rsOk').onclick=()=>{ DB.clear().catch(()=>{}); PC={}; localStorage.removeItem(KEY); S=null; closeModal(); go('intro'); };
+  modal(`<h3>모든 기록을 지울까요?</h3><p>스탬프·결과 수치·사진이 이 휴대폰에서<br>모두 삭제되며 되돌릴 수 없어요.<br><small>이미 제출된 정보의 열람·정정·삭제는<br>개인정보 관리책임자에게 요청해 주세요.</small></p><button class="btn pri" id="rsOk" style="background:var(--danger)">모두 지우기</button><button class="btn ghost" onclick="__closeModal()">취소</button>`);
+  $('#rsOk').onclick=()=>{ DB.clear().catch(()=>{}); PC={}; localStorage.removeItem(KEY); S=null; OUT=[]; saveOut(); closeModal(); go('intro'); };
 });
 
 /* ---------- boot: URL에 구역 코드(?s=)가 있으면 바로 스탬프 ---------- */
@@ -843,7 +1024,7 @@ refreshCounts().then(()=>{
   const sTok=params.get('s');
   if(sTok){ history.replaceState(null,'',location.pathname+location.hash); }
   const hit=sTok?Z.find(z=>z.token===sTok):null;
-  if(hit){ if(!S) newState(''); doStamp(hit); }
+  if(hit){ doStamp(hit); }
   else route(false);
   flush();
 });

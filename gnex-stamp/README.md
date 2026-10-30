@@ -5,7 +5,7 @@
 
 ## 1. 올리는 방법 (GitHub Pages)
 1. GitHub에 새 저장소 `gnex-stamp` 생성 (Public)
-2. 이 폴더 안의 파일을 **전부** 업로드 (index.html, config.js, sw.js, manifest.json, panels.html, img/, lib/)
+2. 이 폴더 안의 파일을 **전부** 업로드 (index.html, config.js, sw.js, manifest.json, panels.html, img/, lib/) — server/ 폴더는 올리지 않아도 됩니다
 3. Settings → Pages → Branch `main` / `/ (root)` 저장
 4. 1~2분 뒤 `https://macite2014.github.io/gnex-stamp/` 접속 확인
 
@@ -34,6 +34,8 @@
 - `maxPhotos` : 프로그램당 사진 최대 장수 (기본 4)
 - `surveyUrl` : 만족도 조사 링크 (비우면 버튼 숨김)
 
-## 5. 개인정보
-이름·연락처를 받지 않으며, 스탬프·수치·사진은 **참가자 휴대폰 브라우저에만** 저장됩니다(서버 전송 없음).
-같은 휴대폰·같은 브라우저로 다시 열면 기록이 그대로 남아 있습니다.
+## 5. 참여 동의 · 데이터 수집
+- 앱 시작 시 김해대학교 「개인정보 수집·이용 및 연구 활용 동의서」(1 개인정보·2 민감정보 필수, 3 연구 활용 선택) + 서명을 받습니다.
+- 동의 문구는 `config.js`의 `consent`에서 수정합니다.
+- 동의한 범위의 데이터만 구글 스프레드시트·드라이브로 전송됩니다 → `server/데이터수집_설정가이드.md`
+- 수집 서버 주소(`dataEndpoint`)가 비어 있으면 아무것도 전송하지 않고 휴대폰에 대기열로 보관합니다.
