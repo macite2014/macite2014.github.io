@@ -529,7 +529,7 @@ function stat(ev, zone){ /* 이전 버전 호환: 스탬프·기념품만 서버
 function zoneInfo(id){ const z=zById(id); return z?{zone:id, zoneNo:z.no, zoneName:z.name}:{zone:id}; }
 async function buildPayload(j){
   const base = { v:1, t:j.t, pid:S?S.pid:'', event:C.eventName, cver:(CS().version||''), sent:new Date().toISOString() };
-  if(j.t==='consent'){ const c=CS(); return Object.assign(base,{ name:c.name, birth:c.birth, phone:c.phone, guardian:c.guardian||'', c1:!!c.c1, c2:!!c.c2, c3:!!c.c3, agreedAt:new Date(c.ts).toISOString(), sig:j.sig||'' }); }
+  if(j.t==='consent'){ const c=CS(); return Object.assign(base,{ name:c.name, gender:c.gender||'', birth:c.birth, phone:c.phone, guardian:c.guardian||'', c1:!!c.c1, c2:!!c.c2, c3:!!c.c3, agreedAt:new Date(c.ts).toISOString(), sig:j.sig||'' }); }
   if(j.t==='stamp'){ return Object.assign(base, zoneInfo(j.zone), { at:new Date(S.stamps[j.zone]||Date.now()).toISOString() }); }
   if(j.t==='prize'){ return Object.assign(base, { at:new Date(S.prize||Date.now()).toISOString() }); }
   if(j.t==='record'){ const z=zById(j.zone), r=S.records[j.zone]||{v:{}};
@@ -665,6 +665,7 @@ function csSync(force){
   const n=new Date();
   box.innerHTML=`<h3>참여자 정보</h3><p class="hint">1번 동의 시 입력해 주세요. 입력한 정보는 김해대학교로 안전하게 전송돼요.</p>
     <div class="fld"><label class="lbl" for="csName">성명</label><input class="inp" id="csName" maxlength="20" autocomplete="name" placeholder="홍길동"></div>
+    <div class="fld" id="csGenderBox"><label class="lbl">성별</label><div class="yn"><label><input type="radio" name="csGender" value="남"><span>남</span></label><label><input type="radio" name="csGender" value="여"><span>여</span></label></div></div>
     <div class="fld"><label class="lbl" for="csBirth">생년월일 (8자리)</label><input class="inp" id="csBirth" inputmode="numeric" maxlength="8" placeholder="예) 19800101" autocomplete="bday"></div>
     <div class="fld"><label class="lbl" for="csPhone">연락처 (휴대전화)</label><input class="inp" id="csPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"></div>
     <div class="fld hide" id="csGuardBox"><label class="lbl" for="csGuard">법정대리인(보호자) 성명 · 만 14세 미만 필수</label><input class="inp" id="csGuard" maxlength="20" placeholder="보호자 성명">
@@ -712,12 +713,14 @@ $('#csOk').addEventListener('click',()=>{
   if(csVal.c3===null) return csErr('#cs-c3','3번 연구 활용 동의 여부를 선택해 주세요 (선택 항목)');
   const name=$('#csName').value.trim(), birth=$('#csBirth').value.trim(), phone=$('#csPhone').value.replace(/\D/g,'');
   if(name.length<2) return csErr('#csName','성명을 입력해 주세요');
+  const gEl=document.querySelector('input[name="csGender"]:checked'); if(!gEl) return csErr('#csGenderBox','성별을 선택해 주세요');
+  const gender=gEl.value;
   if(!validBirth(birth)) return csErr('#csBirth','생년월일 8자리를 확인해 주세요 (예: 19800101)');
   if(!/^01\d{8,9}$/.test(phone)) return csErr('#csPhone','휴대전화 번호를 확인해 주세요');
   let guardian='';
   if(ageOf(birth)<14){ guardian=$('#csGuard').value.trim(); if(guardian.length<2||!$('#csGuardOk').checked) return csErr('#csGuard','만 14세 미만은 보호자 성명과 동의가 필요해요'); }
   if(!sigDirty) return csErr('.sig','서명을 해주세요');
-  c={c1:true,c2:!!csVal.c2,c3:!!csVal.c3,name,birth,phone:phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/,'$1-$2-$3'),guardian,ts:Date.now(),version:CF.version};
+  c={c1:true,c2:!!csVal.c2,c3:!!csVal.c3,name,gender,birth,phone:phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/,'$1-$2-$3'),guardian,ts:Date.now(),version:CF.version};
   finishConsent(c, name, sigData());
 });
 function finishConsent(c, nick, sig){
