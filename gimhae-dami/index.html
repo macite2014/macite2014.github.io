@@ -274,7 +274,9 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
     <div class="form">
       <label class="lbl" for="nick">스탬프판에 표시할 이름(별명)</label>
       <input class="inp" id="nick" maxlength="10" placeholder="예) 김해다미 (선택)" autocomplete="off">
-      <div class="note"><span>🔒</span><div><b>개인정보를 수집하지 않아요.</b><br>이름·연락처를 받지 않으며, 스탬프는 내 휴대폰에만 저장됩니다.</div></div>
+      <label class="lbl" style="margin-top:16px">성별 <span style="color:var(--danger)">*</span></label>
+      <div class="chips"><label><input type="radio" name="gender" value="남"><span>👨 남성</span></label><label><input type="radio" name="gender" value="여"><span>👩 여성</span></label></div>
+      <div class="note"><span>🔒</span><div><b>개인정보를 수집하지 않아요.</b><br>이름·연락처를 받지 않으며, 성별은 참여 통계용으로만 사용됩니다.</div></div>
     </div>
     <div class="introbottom">
       <button class="btn pri" id="btnStart">체험 시작하기</button>
@@ -302,6 +304,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none}
         <div class="progtxt"><strong id="progTitle">첫 스탬프를 받아보세요!</strong><span id="progSub">구역 QR 패널을 찍으면 스탬프가 찍혀요</span></div>
       </div>
     </div>
+    <div id="genderAsk"></div>
     <div id="prizeHome"></div>
     <div class="sec">
       <div class="damisay" style="margin:0 0 14px"><img src="img/ai-dami.png" alt="AI다미" style="height:78px"><div class="bub"><b>AI다미</b>가 안내할게요!<br>체험을 마치고 구역 QR을 찍으면 스탬프를 찍어줄게요.</div></div>
@@ -349,9 +352,9 @@ const zById = id => Z.find(z => z.id===id);
 let S = load();
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || null; }catch(e){ return null; } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); return true; }catch(e){ toast('저장 공간이 부족해요'); return false; } }
-function newState(nick){
+function newState(nick, gender){
   const pid = (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36)+Math.random().toString(36).slice(2))).slice(0,12);
-  S = { v:1, pid, nick: nick||'', created: Date.now(), stamps:{}, records:{}, prize:null, synced:1 };
+  S = { v:1, pid, nick: nick||'', gender: gender||'', created: Date.now(), stamps:{}, records:{}, prize:null, synced:1 };
   save(); stat('start');
 }
 function getPhoto(id){ try{ return localStorage.getItem('ghs-photo-'+id); }catch(e){ return null; } }
@@ -365,7 +368,7 @@ function qset(q){ try{ localStorage.setItem('ghs-q', JSON.stringify(q)); }catch(
 function stat(ev, zone, ts){
   if(!C.statsEndpoint || !S) return;
   const q = qget();
-  q.push({pid:S.pid, ev, zone:zone||'', ts:new Date(ts||Date.now()).toISOString()});
+  q.push({pid:S.pid, ev, zone:zone||'', g:S.gender||'', ts:new Date(ts||Date.now()).toISOString()});
   qset(q); flush();
 }
 let flushing=false;
@@ -381,7 +384,7 @@ function flush(){
 /* 수집 기능을 켜기 전에 시작한 참가자: 휴대폰에 남은 기존 스탬프 기록을 한 번 전송 */
 function backfill(){
   if(!C.statsEndpoint || !S || S.synced) return;
-  const q = qget(); const add=(ev,zone,ts)=>q.push({pid:S.pid, ev, zone:zone||'', ts:new Date(ts).toISOString()});
+  const q = qget(); const add=(ev,zone,ts)=>q.push({pid:S.pid, ev, zone:zone||'', g:S.gender||'', ts:new Date(ts).toISOString()});
   add('start','',S.created||Date.now());
   const st=Object.entries(S.stamps).filter(([id])=>zById(id)).sort((a,b)=>a[1]-b[1]);
   st.forEach(([id,t])=>add('stamp',id,t));
@@ -432,7 +435,9 @@ function route(push){
 
 /* ---------- intro ---------- */
 $('#btnStart').addEventListener('click',()=>{
-  newState($('#nick').value.trim());
+  const gEl=document.querySelector('input[name=gender]:checked');
+  if(!gEl){ toast('성별을 선택해 주세요'); document.querySelector('input[name=gender]').closest('.chips').scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  newState($('#nick').value.trim(), gEl.value);
   go('home');
   setTimeout(()=>modal(`<img src="img/ai-dami.png" style="height:104px;width:auto;margin:0 auto 4px">
     <h3>반가워요${S.nick?', '+esc(S.nick)+'님':''}!</h3>
@@ -468,6 +473,12 @@ function renderHome(){
       $('#mScan').onclick=()=>{closeModal();openScan();}; }
   }));
   renderPrize('#prizeHome');
+  const ga=$('#genderAsk');
+  if(S.gender){ ga.innerHTML=''; }
+  else {
+    ga.innerHTML=`<div class="prize" style="background:#fff;margin-top:14px"><h3 style="font-size:16px">성별을 선택해 주세요</h3><p style="color:var(--sub)">참여 통계용으로만 사용돼요.</p>${'<div class="chips"><label><input type="radio" name="gender2" value="남"><span>👨 남성</span></label><label><input type="radio" name="gender2" value="여"><span>👩 여성</span></label></div>'}</div>`;
+    ga.querySelectorAll('input[name=gender2]').forEach(i=>i.addEventListener('change',()=>{ S.gender=i.value; save(); stat('gender'); toast('선택했어요'); renderHome(); }));
+  }
 }
 
 /* ---------- prize ---------- */
