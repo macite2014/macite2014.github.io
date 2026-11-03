@@ -27,7 +27,7 @@ window.APP_CONFIG = {
      동의한 참여자의 데이터만 이 주소로 전송되어 구글 스프레드시트·드라이브에 모입니다.
      비워두면 아무것도 전송하지 않고, 휴대폰에 대기열로 보관했다가 주소가 입력되면 전송합니다.
      설정 방법: server/데이터수집_설정가이드.md 참고 */
-  dataEndpoint: "",
+  dataEndpoint: "https://script.google.com/macros/s/AKfycbxx17uY21_UY9Ztl5Iuw6Y18kxx6R6KoBsCtRE6aFXoI7xoQf05RZq7sWwiFzzRHR3_Hg/exec",
 
   /* ---------- 개인정보 수집·이용 및 연구 활용 동의서 ----------
      (김해대학교 동의서 A4 원문 기준. 문구를 바꾸면 version도 올려주세요) */
