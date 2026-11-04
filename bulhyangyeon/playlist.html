@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>불멍 플레이리스트 | 불의 향연 K-BBQ FESTIVAL</title>
+<meta name="description" content="2026 불의 향연 · K-BBQ FESTIVAL IN GYEONGNAM 불멍 플레이리스트. 캠핑감성충전소 · 조용한 불멍타임 각 12곡.">
+<meta name="theme-color" content="#08101f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="불멍 플레이리스트 | 불의 향연">
+<meta property="og:description" content="굽는 소리가 음악이 되는 밤. 캠핑감성충전소 · 조용한 불멍타임 24곡을 바로 들어보세요.">
+<meta property="og:image" content="https://macite2014.github.io/bulhyangyeon/og.jpg">
+<meta property="og:url" content="https://macite2014.github.io/bulhyangyeon/playlist.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --night:#08101f;
+  --navy:#101d3a;
+  --navy2:#1a2b52;
+  --gold:#e9b864;
+  --gold2:#f6d58e;
+  --ember:#ff7a2f;
+  --flame:#ffb347;
+  --ash:rgba(255,255,255,.62);
+  --line:rgba(255,255,255,.14);
+  --glow:1; /* JS로 모드별 불세기 조절 */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:#fff;background:var(--night);
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+
+/* ── 밤하늘 배경 ── */
+.sky{position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 108%, rgba(255,122,47,calc(.30*var(--glow))) 0%, rgba(255,122,47,0) 55%),
+    radial-gradient(circle at 82% 9%, rgba(246,213,142,.10) 0%, rgba(246,213,142,0) 22%),
+    linear-gradient(180deg,#0b1530 0%,#101d3a 38%,#0d1830 66%,#07090f 100%);
+  transition:background 1.2s ease;
+}
+#stars{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.moon{position:absolute;right:max(14px,8vw);top:30px;width:58px;height:58px;border-radius:50%;
+  box-shadow:-11px 7px 0 2px var(--gold2);transform:rotate(-12deg);
+  filter:drop-shadow(0 0 18px rgba(246,213,142,.45));opacity:.95}
+@media(max-width:520px){.moon{width:40px;height:40px;top:22px;right:14px;box-shadow:-8px 5px 0 1px var(--gold2)}}
+.ridge{position:absolute;left:0;right:0;bottom:0;height:120px;pointer-events:none;z-index:0}
+
+/* 전구줄 */
+.lights{position:absolute;left:-2%;right:-2%;top:0;height:80px;pointer-events:none;z-index:1}
+.lights path{fill:none;stroke:rgba(255,255,255,.25);stroke-width:1.2}
+.bulb{fill:var(--gold2);animation:twinkle 3.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* 흐르는 텍스트 */
+.marquee{position:relative;z-index:2;border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:9px 0;background:rgba(8,16,31,.55);
+  font-size:11px;letter-spacing:3px;font-weight:700;color:rgba(246,213,142,.7)}
+.marquee span{display:inline-block;padding-left:100%;animation:slide 26s linear infinite}
+@keyframes slide{to{transform:translateX(-100%)}}
+
+/* ── 히어로 ── */
+.hero{position:relative;text-align:center;padding:58px 16px 0;overflow:hidden}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:3.5px;color:var(--gold)}
+h1{margin:10px 0 0;font-family:"Nanum Brush Script",cursive;font-weight:400;
+  font-size:clamp(76px,22vw,132px);line-height:.95;letter-spacing:2px;
+  text-shadow:0 0 28px rgba(255,179,71,calc(.35*var(--glow))),0 4px 0 rgba(0,0,0,.25)}
+.h1-rule{width:64px;height:2px;background:var(--gold);margin:6px auto 14px;border-radius:2px}
+.sub{margin:0;font-size:clamp(17px,4.6vw,22px);font-weight:800;letter-spacing:-.3px}
+.sub em{font-style:normal;color:var(--gold2)}
+.tag{margin:8px 0 0;font-size:13.5px;color:var(--ash)}
+
+/* ── 모닥불 ── */
+.campfire{position:relative;width:min(78vw,320px);height:250px;margin:56px auto 0}
+.teepee{position:absolute;inset:-6px 0 0;width:100%;height:100%;overflow:visible}
+.teepee line{stroke:rgba(255,255,255,.55);stroke-width:1.6}
+.halo{position:absolute;left:50%;bottom:6px;width:280px;height:160px;transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 80%, rgba(255,140,50,calc(.55*var(--glow))) 0%, rgba(255,90,30,calc(.18*var(--glow))) 40%, transparent 70%);
+  filter:blur(6px);animation:breathe 2.6s ease-in-out infinite;transition:opacity 1s}
+@keyframes breathe{0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.06)}}
+.fire{position:absolute;left:50%;bottom:34px;width:110px;height:150px;transform:translateX(-50%) scale(calc(.75 + .25*var(--glow)));
+  transform-origin:50% 100%;transition:transform 1.2s ease;filter:blur(.4px)}
+.flame{position:absolute;bottom:0;left:50%;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  transform-origin:50% 100%;mix-blend-mode:screen}
+.f1{width:96px;height:132px;margin-left:-48px;background:radial-gradient(ellipse at 50% 85%,#ff9a3c 0%,#ff5e1a 45%,rgba(255,60,10,0) 72%);animation:lick 1.6s ease-in-out infinite}
+.f2{width:72px;height:112px;margin-left:-44px;background:radial-gradient(ellipse at 50% 85%,#ffc062 0%,#ff7a2f 50%,rgba(255,80,20,0) 74%);animation:lick 1.25s ease-in-out infinite reverse}
+.f3{width:66px;height:104px;margin-left:-20px;background:radial-gradient(ellipse at 50% 85%,#ffc062 0%,#ff7a2f 50%,rgba(255,80,20,0) 74%);animation:lick 1.4s ease-in-out .3s infinite}
+.f4{width:44px;height:78px;margin-left:-22px;background:radial-gradient(ellipse at 50% 88%,#fff6d6 0%,#ffd27a 45%,rgba(255,170,60,0) 75%);animation:lick 1.05s ease-in-out infinite}
+@keyframes lick{
+  0%,100%{transform:scale(1,1) skewX(0deg)}
+  25%{transform:scale(.94,1.08) skewX(3deg)}
+  50%{transform:scale(1.04,.94) skewX(-2deg)}
+  75%{transform:scale(.97,1.05) skewX(-4deg)}}
+.logs{position:absolute;left:50%;bottom:22px;width:150px;height:34px;transform:translateX(-50%)}
+.log{position:absolute;bottom:0;width:120px;height:18px;border-radius:9px;
+  background:linear-gradient(180deg,#5a3520,#2c1a10);box-shadow:inset 0 -3px 0 rgba(0,0,0,.35),0 0 14px rgba(255,110,40,calc(.35*var(--glow)))}
+.log.a{left:2px;transform:rotate(14deg)}
+.log.b{right:2px;transform:rotate(-14deg)}
+.log::after{content:"";position:absolute;right:6px;top:4px;width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle,#ffb067 0,#c25a22 60%,#5a3520 100%);opacity:calc(.6 + .4*var(--glow))}
+.log.a::after{left:6px;right:auto}
+.stones{position:absolute;left:50%;bottom:10px;width:200px;height:22px;transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.55), transparent 70%)}
+#embers{position:absolute;left:50%;bottom:40px;width:260px;height:260px;transform:translateX(-50%);pointer-events:none}
+
+/* ── 모드 버튼 ── */
+.modes{display:flex;flex-direction:column;gap:12px;align-items:center;margin:26px auto 0;padding:0 16px;max-width:560px}
+@media(min-width:640px){.modes{flex-direction:row;justify-content:center}}
+.mode{width:100%;max-width:340px;display:flex;align-items:center;gap:14px;text-align:left;
+  padding:15px 20px;border-radius:18px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s}
+.mode:hover{transform:translateY(-2px)}
+.mode .ico{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.08);font-size:21px}
+.mode b{display:block;font-size:16.5px;font-weight:800;letter-spacing:-.3px}
+.mode small{display:block;margin-top:3px;font-size:12px;color:var(--ash);font-weight:600}
+.mode[aria-pressed="true"].camp{background:linear-gradient(120deg,#ff7a2f,#f6b44a);border-color:transparent;color:#2a1205;
+  box-shadow:0 12px 34px rgba(255,122,47,.38)}
+.mode[aria-pressed="true"].camp small{color:rgba(42,18,5,.68)}
+.mode[aria-pressed="true"].camp .ico{background:rgba(255,255,255,.28)}
+.mode[aria-pressed="true"].quiet{background:linear-gradient(120deg,#1f3366,#2c447d);border-color:rgba(246,213,142,.55);
+  box-shadow:0 12px 34px rgba(10,20,50,.6), inset 0 0 0 1px rgba(246,213,142,.15)}
+.mode[aria-pressed="true"].quiet small{color:rgba(246,213,142,.8)}
+
+/* ── 플레이어 ── */
+.player-wrap{max-width:720px;margin:28px auto 0;padding:0 16px}
+.card{background:linear-gradient(180deg,rgba(16,29,58,.82),rgba(8,14,28,.9));
+  border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 14px}
+.card-head h2{margin:0;font-size:18px;font-weight:900;letter-spacing:-.4px}
+.card-head h2 span{color:var(--gold2)}
+.card-head p{margin:3px 0 0;font-size:12.5px;color:var(--ash)}
+.count{flex:none;font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--gold);
+  border:1px solid rgba(233,184,100,.45);padding:6px 10px;border-radius:999px}
+.video{position:relative;aspect-ratio:16/9;background:#000}
+.video #yt, .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster-cover{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(ellipse at 50% 90%,rgba(255,122,47,.35),transparent 60%),linear-gradient(180deg,#0e1a36,#05070d);
+  cursor:pointer;transition:opacity .4s}
+.poster-cover.hide{opacity:0;pointer-events:none}
+.poster-cover .play-big{width:74px;height:74px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#ff7a2f,#f6b44a);box-shadow:0 0 0 10px rgba(255,122,47,.18),0 10px 30px rgba(255,122,47,.45)}
+.poster-cover .play-big svg{width:30px;height:30px;margin-left:4px;fill:#2a1205}
+.poster-cover b{display:block;font-size:16px}
+.poster-cover small{display:block;margin-top:4px;font-size:12px;color:var(--ash)}
+
+.now{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--line)}
+.eq{flex:none;display:flex;gap:3px;align-items:flex-end;height:18px;width:20px}
+.eq i{display:block;width:4px;background:var(--gold);border-radius:2px;height:30%;}
+.playing .eq i{animation:eq .9s ease-in-out infinite}
+.playing .eq i:nth-child(2){animation-delay:.2s}.playing .eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+.now-txt{flex:1;min-width:0}
+.now-txt b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now-txt small{display:block;font-size:12.5px;color:var(--ash);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctrls{flex:none;display:flex;gap:6px}
+.ctrl{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);transition:background .2s}
+.ctrl:hover{background:rgba(255,255,255,.16)}
+.ctrl svg{width:18px;height:18px;fill:#fff}
+.ctrl.main{background:var(--gold);}
+.ctrl.main svg{fill:#1a1206}
+
+/* 트랙 리스트 */
+.tracks{list-style:none;margin:0;padding:6px 8px 10px;border-top:1px solid var(--line)}
+.tracks li button{width:100%;display:flex;align-items:center;gap:14px;text-align:left;padding:11px 10px;border-radius:12px;transition:background .2s}
+.tracks li button:hover{background:rgba(255,255,255,.05)}
+.tracks .no{flex:none;width:26px;font-size:13px;font-weight:800;color:rgba(255,255,255,.38);font-variant-numeric:tabular-nums;text-align:center}
+.tracks .t{flex:1;min-width:0}
+.tracks .t b{display:block;font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tracks .t small{display:block;font-size:12px;color:var(--ash);margin-top:1px}
+.tracks .note{flex:none;font-size:11px;color:rgba(246,213,142,.65);font-weight:600;max-width:34%;text-align:right;line-height:1.35}
+.tracks li.on button{background:rgba(233,184,100,.12)}
+.tracks li.on .no{color:var(--gold2)}
+.tracks li.on .t b{color:var(--gold2)}
+
+.card-foot{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px 18px 18px;border-top:1px solid var(--line)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:800;
+  border:1px solid var(--line);background:rgba(255,255,255,.05);transition:background .2s}
+.pill:hover{background:rgba(255,255,255,.12)}
+.pill svg{width:18px;height:18px;fill:#ff3d3d}
+.pill.share svg{fill:var(--gold2)}
+
+/* 안내 · 푸터 */
+.info{max-width:720px;margin:28px auto 0;padding:0 16px;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.info{grid-template-columns:auto 1fr;align-items:center}}
+.info img{width:120px;border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.5);display:block;margin:0 auto}
+.info .txt{font-size:13.5px;line-height:1.75;color:var(--ash);text-align:center}
+@media(min-width:640px){.info .txt{text-align:left}}
+.info .txt b{color:#fff}
+.info .txt a{color:var(--gold2);text-decoration:underline;text-underline-offset:3px}
+footer{margin-top:36px;padding:22px 16px 34px;border-top:1px solid var(--line);text-align:center;font-size:11.5px;line-height:1.9;color:rgba(255,255,255,.42)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#f6d58e;color:#1a1206;
+  font-size:13px;font-weight:800;padding:10px 16px;border-radius:999px;transition:.3s;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  .marquee span,.flame,.halo,.bulb{animation:none!important}
+  .marquee span{padding-left:0}
+}
+</style>
+</head>
+<body>
+<div class="sky"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="marquee"><span>🔥 불의 향연 · K-BBQ FESTIVAL IN GYEONGNAM · 굽는 소리가 음악이 되는 밤 · 2026. 11. 6 — 11. 8 · 밀양캠프밸리 · 와이파이 대신 불 · 불멍 플레이리스트 · 캠핑감성충전소 · 조용한 불멍타임 🔥</span></div>
+
+<header class="hero">
+  <svg class="lights" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,10 Q250,70 500,22 T1000,14"/>
+  </svg>
+  <div class="moon" aria-hidden="true"></div>
+  <div class="eyebrow">K-BBQ FESTIVAL IN GYEONGNAM</div>
+  <h1>불의 향연</h1>
+  <div class="h1-rule"></div>
+  <p class="sub">밤을 채우는 <em>불멍 플레이리스트</em></p>
+  <p class="tag">우리는 모두 각자의 불을 피우며 산다</p>
+
+  <div class="campfire" aria-hidden="true">
+    <svg class="teepee" viewBox="0 0 320 250" preserveAspectRatio="xMidYMax meet">
+      <line x1="104" y1="240" x2="184" y2="-50"/>
+      <line x1="216" y1="240" x2="136" y2="-50"/>
+    </svg>
+    <div class="halo"></div>
+    <canvas id="embers" width="260" height="260"></canvas>
+    <div class="fire"><span class="flame f1"></span><span class="flame f2"></span><span class="flame f3"></span><span class="flame f4"></span></div>
+    <div class="stones"></div>
+    <div class="logs"><span class="log a"></span><span class="log b"></span></div>
+  </div>
+</header>
+
+<nav class="modes" aria-label="플레이리스트 선택">
+  <button class="mode camp" data-list="camp" aria-pressed="true">
+    <span class="ico">🏕️</span>
+    <span><b>캠핑감성충전소</b><small>텐트 치고 고기 굽는 시간 · 12곡</small></span>
+  </button>
+  <button class="mode quiet" data-list="quiet" aria-pressed="false">
+    <span class="ico">🌙</span>
+    <span><b>조용한 불멍타임</b><small>불 끄기 전, 별 켜는 시간 · 12곡</small></span>
+  </button>
+</nav>
+
+<main class="player-wrap">
+  <section class="card" id="card">
+    <div class="card-head">
+      <div>
+        <h2 id="plTitle">캠핑감성충전소</h2>
+        <p id="plDesc"></p>
+      </div>
+      <span class="count" id="plCount">12 TRACKS</span>
+    </div>
+    <div class="video">
+      <div id="yt"></div>
+      <div class="poster-cover" id="cover" role="button" tabindex="0" aria-label="재생 시작">
+        <div>
+          <div class="play-big"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <b id="coverTitle">탭해서 불 붙이기</b>
+          <small>12곡이 순서대로 이어서 재생됩니다</small>
+        </div>
+      </div>
+    </div>
+    <div class="now" id="now">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div class="now-txt"><b id="nowTitle">—</b><small id="nowArtist">재생할 곡을 골라보세요</small></div>
+      <div class="ctrls">
+        <button class="ctrl" id="prev" aria-label="이전 곡"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+        <button class="ctrl main" id="toggle" aria-label="재생/일시정지"><svg viewBox="0 0 24 24" id="toggleIco"><path d="M8 5v14l11-7z"/></svg></button>
+        <button class="ctrl" id="next" aria-label="다음 곡"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+      </div>
+    </div>
+    <ol class="tracks" id="tracks"></ol>
+    <div class="card-foot">
+      <a class="pill" id="ytOpen" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8l5.2 3.2z"/></svg>
+        유튜브 앱에서 이어듣기
+      </a>
+      <button class="pill share" id="share">
+        <svg viewBox="0 0 24 24"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
+        이 플레이리스트 공유
+      </button>
+    </div>
+  </section>
+</main>
+
+<section class="info">
+  <img src="poster.jpg" alt="불의 향연 2026 포스터" width="120" height="169" loading="lazy">
+  <div class="txt">
+    <b>2026 불의 향연 · K-BBQ FESTIVAL IN GYEONGNAM</b><br>
+    2026. 11. 6.(금) — 11. 8.(일) · 밀양캠프밸리캠핑장 (영남알프스 얼음골 자락)<br>
+    숯불 위에 고기가 익는 소리, 장작이 타닥이는 소리, 그리고 이 노래들.<br>
+    <a href="https://k-bbq.bargo2023.co.kr/" target="_blank" rel="noopener">축제 안내 · 참가 신청 바로가기 →</a>
+  </div>
+</section>
+
+<footer>
+  주최 경남 K-BBQ 관광산업 육성 추진협의체 · 주관 주식회사 바르고 · 후원 경상남도 · 경남관광재단<br>
+  음원은 각 아티스트·레이블의 공식 YouTube 영상으로 재생됩니다.<br>
+  🔥 굽는 소리가 음악이 되는 밤 🔥
+</footer>
+<div class="toast" id="toast">링크가 복사되었어요</div>
+
+<script>
+const LISTS = {
+  camp: {
+    title: '캠핑감성충전소',
+    desc: '텐트 치고, 숯에 불 붙이고, 고기 올리는 시간. 따라 부르기 좋은 어쿠스틱 팝 · 인디 12곡',
+    cover: '캠핑감성 충전 시작',
+    glow: 1,
+    tracks: [
+      ['uJ_1HMAGb4k','Riptide','Vance Joy','우쿨렐레로 여는 캠핑의 시작'],
+      ['zvCBSSwgtg4','Ho Hey','The Lumineers','다 같이 “Hey!”'],
+      ['DHEOF_rcND8','Home','Edward Sharpe & The Magnetic Zeros','휘파람 한 소절'],
+      ['ghb6eDopW8I','Little Talks','Of Monsters and Men','텐트 사이를 걷는 발걸음'],
+      ['tH5Q9-M6t8c','Banana Pancakes (Live)','Jack Johnson','느긋한 아침처럼'],
+      ['iX-QaNzd-0Y','Stolen Dance','Milky Chance','고기 뒤집는 리듬'],
+      ['-MH-UmYkXiM','Ends of the Earth','Lord Huron','영남알프스 너머로'],
+      ['rGKfrgqWcv0','I Will Wait','Mumford & Sons','불길이 가장 높을 때'],
+      ['EkHTsc9PU2A',"I'm Yours",'Jason Mraz','옆 사이트와 건배'],
+      ['Cp-1t9B62zc','Coastline (Acoustic)','Hollow Coves','노을 지는 얼음골'],
+      ['IUoTjkS242c','위잉위잉','혁오 (HYUKOH)','바람 따라 흔들흔들'],
+      ['f5wCZ0-3Eos','뜨거운 여름밤은 가고 남은 건 볼품없지만','잔나비','떼창으로 마무리']
+    ]
+  },
+  quiet: {
+    title: '조용한 불멍타임',
+    desc: '불 끄고 별 켜는 시간. 타닥이는 장작 소리 위에 얹는 잔잔한 포크 · 인디 12곡',
+    cover: '조용히 불멍 시작',
+    glow: .55,
+    tracks: [
+      ['x8ccDb6n5Wg','Old Pine','Ben Howard','오래된 소나무 아래'],
+      ['TWcyIpul8OE','Holocene','Bon Iver','작아지는 나, 커지는 밤'],
+      ['ik_BQYbbZ5U','Heartbeats','José González','기타 한 대의 온기'],
+      ['OmKAn8rNbKg','Anchor','Novo Amor','숨 고르기'],
+      ['8inJtTG_DuU','Bloom','The Paper Kites','속삭이듯'],
+      ['DrQRS40OKNE','White Winter Hymnal','Fleet Foxes','11월 밤의 찬가'],
+      ['E69qahzgeN8','Big Black Car','Gregory Alan Isakov','깜빡이는 잔불'],
+      ['RGVmhrfQqzg','Flightless Bird, American Mouth','Iron & Wine','담요 덮을 시간'],
+      ['3yqM--IMkX4','Cannonball','Damien Rice','불씨를 바라보며'],
+      ['4WTt69YO2VI','Mystery of Love','Sufjan Stevens','별이 내리는 자리'],
+      ['Aq_gsctWHtQ','EVERYTHING','검정치마','너는 나의 모든 것'],
+      ['g-rZeTNIw7E','좋은 밤 좋은 꿈','너드커넥션','잘 자요, 오늘 밤']
+    ]
+  }
+};
+
+const $ = s => document.querySelector(s);
+let current = new URLSearchParams(location.search).get('list');
+if(!LISTS[current]) current = 'camp';
+let player = null, ready = false, started = false, pendingIndex = null, idx = 0, playing = false;
+
+function ids(key){ return LISTS[key].tracks.map(t=>t[0]); }
+
+function render(){
+  const L = LISTS[current];
+  document.querySelectorAll('.mode').forEach(b=>b.setAttribute('aria-pressed', b.dataset.list===current));
+  $('#plTitle').innerHTML = current==='camp' ? '<span>🏕️</span> 캠핑감성충전소' : '<span>🌙</span> 조용한 불멍타임';
+  $('#plDesc').textContent = L.desc;
+  $('#coverTitle').textContent = L.cover;
+  $('#ytOpen').href = 'https://www.youtube.com/watch_videos?video_ids=' + ids(current).join(',');
+  document.documentElement.style.setProperty('--glow', L.glow);
+  const ol = $('#tracks'); ol.innerHTML='';
+  L.tracks.forEach((t,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML = `<button type="button"><span class="no">${String(i+1).padStart(2,'0')}</span><span class="t"><b></b><small></small></span><span class="note"></span></button>`;
+    li.querySelector('b').textContent=t[1]; li.querySelector('small').textContent=t[2]; li.querySelector('.note').textContent=t[3];
+    li.querySelector('button').addEventListener('click',()=>playAt(i));
+    ol.appendChild(li);
+  });
+  setNow(0);
+}
+
+function setNow(i){
+  idx = i;
+  const t = LISTS[current].tracks[i];
+  $('#nowTitle').textContent = t[1];
+  $('#nowArtist').textContent = t[2];
+  document.querySelectorAll('#tracks li').forEach((li,k)=>li.classList.toggle('on', k===i && started));
+}
+
+function playAt(i){
+  started = true;
+  $('#cover').classList.add('hide');
+  setNow(i);
+  if(!ready){ pendingIndex = i; return; }
+  player.loadPlaylist(ids(current), i);
+}
+
+function switchList(key, autoplay){
+  if(key===current && !autoplay) return;
+  current = key;
+  const u = new URL(location.href); u.searchParams.set('list', key); history.replaceState(null,'',u);
+  started = started && autoplay;
+  render();
+  if(ready && autoplay){ playAt(0); }
+  else if(ready){ player.cuePlaylist(ids(current), 0); $('#cover').classList.remove('hide'); started=false; setPlaying(false); }
+}
+
+function setPlaying(p){
+  playing = p;
+  $('#now').classList.toggle('playing', p);
+  $('#toggleIco').innerHTML = p ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+}
+
+document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>{
+  const wasStarted = started;
+  switchList(b.dataset.list, wasStarted);
+  $('#card').scrollIntoView({behavior:'smooth', block:'start'});
+}));
+$('#cover').addEventListener('click',()=>playAt(0));
+$('#cover').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();playAt(0);} });
+$('#toggle').addEventListener('click',()=>{
+  if(!started){ playAt(0); return; }
+  if(!ready) return;
+  playing ? player.pauseVideo() : player.playVideo();
+});
+$('#next').addEventListener('click',()=>{ if(!started) return playAt(0); ready && player.nextVideo(); });
+$('#prev').addEventListener('click',()=>{ if(!started) return playAt(0); ready && player.previousVideo(); });
+
+$('#share').addEventListener('click', async ()=>{
+  const url = 'https://macite2014.github.io/bulhyangyeon/playlist.html?list=' + current;
+  const data = {title:'불의 향연 · '+LISTS[current].title, text:'굽는 소리가 음악이 되는 밤 🔥', url};
+  try{ if(navigator.share){ await navigator.share(data); return; } }catch(e){ return; }
+  try{ await navigator.clipboard.writeText(url); }catch(e){}
+  const t=$('#toast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800);
+});
+
+/* YouTube IFrame API */
+window.onYouTubeIframeAPIReady = function(){
+  player = new YT.Player('yt', {
+    width:'100%', height:'100%',
+    playerVars:{ playsinline:1, rel:0, modestbranding:1 },
+    events:{
+      onReady:()=>{
+        ready = true;
+        if(pendingIndex!==null){ player.loadPlaylist(ids(current), pendingIndex); pendingIndex=null; }
+        else { player.cuePlaylist(ids(current), 0); }
+      },
+      onStateChange:(e)=>{
+        setPlaying(e.data===YT.PlayerState.PLAYING);
+        if(e.data===YT.PlayerState.PLAYING || e.data===YT.PlayerState.BUFFERING){
+          const i = player.getPlaylistIndex();
+          if(i>=0 && started) setNow(i);
+        }
+      },
+      onError:()=>{ setTimeout(()=>{ try{ player.nextVideo(); }catch(_){} }, 800); }
+    }
+  });
+};
+render();
+(function(){ const s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); })();
+
+/* 별 */
+(function(){
+  const c=$('#stars'), x=c.getContext('2d'); let W,H,stars=[];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){ const d=Math.min(devicePixelRatio||1,2); W=c.width=innerWidth*d; H=c.height=innerHeight*d;
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/5200)},()=>({x:Math.random()*W,y:Math.random()*H*.72,r:(Math.random()*1.1+.25)*d,p:Math.random()*6.28,s:.6+Math.random()*1.6})); }
+  function draw(t){ x.clearRect(0,0,W,H);
+    for(const s of stars){ const a=.35+.65*Math.abs(Math.sin(s.p+t*.0006*s.s)); x.globalAlpha=a; x.fillStyle=s.r>1.4?'#f6d58e':'#fff'; x.beginPath(); x.arc(s.x,s.y,s.r,0,6.28); x.fill(); }
+    if(!reduce) requestAnimationFrame(draw); }
+  size(); addEventListener('resize',size); requestAnimationFrame(draw);
+})();
+
+/* 전구 */
+(function(){
+  const svg=$('.lights'), path=svg.querySelector('path'), len=path.getTotalLength(), n=16;
+  for(let i=1;i<n;i++){ const p=path.getPointAtLength(len*i/n);
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',p.x); c.setAttribute('cy',p.y+5); c.setAttribute('r',4.2); c.setAttribute('class','bulb');
+    c.style.animationDelay=(i*.37%3.4)+'s'; c.style.filter='drop-shadow(0 0 6px rgba(246,213,142,.9))'; svg.appendChild(c); }
+})();
+
+/* 불씨 */
+(function(){
+  const c=$('#embers'), x=c.getContext('2d'), W=c.width, H=c.height; let ps=[];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function spawn(){ ps.push({x:W/2+(Math.random()-.5)*60, y:H-10, vx:(Math.random()-.5)*.5, vy:-(.6+Math.random()*1.3), life:0, max:90+Math.random()*90, r:.8+Math.random()*1.8}); }
+  function tick(){
+    const g=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--glow'))||1;
+    if(Math.random()<.55*g) spawn();
+    x.clearRect(0,0,W,H);
+    ps=ps.filter(p=>p.life<p.max);
+    for(const p of ps){ p.life++; p.x+=p.vx+Math.sin((p.life+p.r*40)*.06)*.35; p.y+=p.vy; const a=1-p.life/p.max;
+      x.globalAlpha=a; x.fillStyle=a>.6?'#ffe3a1':'#ff8a3d'; x.shadowColor='#ff7a2f'; x.shadowBlur=8;
+      x.beginPath(); x.arc(p.x,p.y,p.r,0,6.28); x.fill(); }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
